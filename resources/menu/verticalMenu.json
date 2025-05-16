@@ -1,0 +1,48 @@
+{
+  "menu": [
+    {
+      "menuHeader": "Dashboard Menu"
+    },
+    {
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bxs-dashboard",
+      "slug": "Dashboard Admin",
+      "url": "/admin/dashboard",
+      "roles": ["admin"]
+    },
+    {
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bxs-dashboard",
+      "slug": "Dashboard User",
+      "url": "/user/dashboard",
+      "roles": ["user"]
+    },
+    {
+      "name": "Data Keluarga",
+      "icon": "menu-icon tf-icons bx bx-child",
+      "slug": "Data Keluarga",
+      "url": "/admin/data/keluarga",
+      "roles": ["admin"]
+    },
+    {
+      "name": "Data Keluarga",
+      "icon": "menu-icon tf-icons bx bx-child",
+      "slug": "Data Keluarga",
+      "url": "/user/data/keluarga",
+      "roles": ["user"]
+    },
+    {
+      "name": "User Management",
+      "icon": "menu-icon tf-icons bx bxs-user-account",
+      "slug": "User Management",
+      "url": "/admin/data/user",
+      "roles": ["admin"]
+    },
+    {
+      "name": "Profile",
+      "icon": "menu-icon tf-icons bx bxs-user",
+      "slug": "cards-basic",
+      "url": "profile"
+    }
+  ]
+}
