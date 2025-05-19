@@ -16,13 +16,13 @@ class SilsilahController extends Controller
         $validated = $request->validate([
             'nama_anggota_keluarga' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => 'nullable|date',
             'status_kehidupan' => 'required|in:Hidup,Wafat',
             'tanggal_kematian' => 'nullable|date|required_if:status_kehidupan,Wafat',
             'alamat' => 'required|string|max:255',
             'urutan' => 'required|string',
             'tree_id' => 'required|string',
-            'keluarga_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'keluarga_image' => 'nullable|image|mimes:jpeg,png,jpg',
             'parent_id' => 'nullable|exists:anggota_keluarga,id'
         ]);
         $photoPath = null;
@@ -56,7 +56,7 @@ class SilsilahController extends Controller
         $validated = $request->validate([
             'nama_anggota_keluarga_edit' => 'required|string|max:255',
             'jenis_kelamin_edit' => 'required|in:Laki-laki,Perempuan',
-            'tanggal_lahir_edit' => 'required|date',
+            'tanggal_lahir_edit' => 'nullable|date',
             'status_kehidupan_edit' => 'required',
             'tanggal_kematian_edit' => 'nullable|date', // Perbaikan disini
             'alamat_edit' => 'required|string|max:255',
@@ -87,9 +87,6 @@ class SilsilahController extends Controller
             'parent_id' => $validated['parent_id_edit'] ?? null
         ]);
 
-        // Hapus ini, karena sudah diupdate di atas
-        // $anggota->update();
-
         return redirect()->back()
             ->with('success', 'Data anggota keluarga berhasil diperbarui');
     }
@@ -110,20 +107,19 @@ class SilsilahController extends Controller
         $validated = $request->validate([
             'nama_pasangan_anggota_keluarga' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => 'nullable|date',
             'status_kehidupan' => 'required|in:Hidup,Wafat',
             'tanggal_kematian' => 'nullable|date|required_if:status_kehidupan,Wafat',
-            'alamat' => 'required|string|max:255',
             'urutan' => 'required|string',
             'keluarga_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'partner_id' => 'nullable|exists:anggota_keluarga,id'
         ]);
 
-        // Handle file upload
         $photoPath = null;
         if ($request->hasFile('partner_image')) {
             $photoPath = $request->file('partner_image')->store('partner', 'public');
         }
+        
 
         // Create new anggota keluarga
         $pasangan = Partner::create([
@@ -132,10 +128,8 @@ class SilsilahController extends Controller
             'tanggal_lahir' => $validated['tanggal_lahir'],
             'status_kehidupan' => $validated['status_kehidupan'],
             'tanggal_kematian' => $validated['tanggal_kematian'],
-            'alamat' => $validated['alamat'],
             'photo' => $photoPath, 
             'urutan_anak' => $validated['urutan'], // Added missing required field
-            // 'tree_id' => $validated['tree_id'], // Added missing required field (adjust as needed)
             'anggota_keluarga_id' => $validated['partner_id'] ?? null
         ]);
 
@@ -147,10 +141,55 @@ class SilsilahController extends Controller
     public function edit_pasangan_anggota_keluarga() {
         
     }
-    public function update_pasangan_anggota_keluarga() {
+    public function update_pasangan_anggota_keluarga(Request $request, $id) {
+
+    $partner = Partner::findOrFail($id);
+
+        $validated = $request->validate([
+        'tree_id' => 'required|exists:trah,id',
+        'nama_pasangan_edit' => 'required|string|max:255',
+        'jenis_kelamin_edit' => 'required|in:Laki-laki,Perempuan',
+        'tanggal_lahir_edit' => 'nullable|date',
+        'partner_id_edit' => 'required',
+        'urutan_edit' => 'required|integer|min:1|max:14',
+        'status_kehidupan_edit' => 'required|in:Hidup,Wafat',
+        'tanggal_kematian_edit' => 'nullable|date|required_if:status_kehidupan_edit,Wafat',
+        // 'alamat_edit' => 'required|string',
+        'foto_pasangan_edit' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
+
+
+    // Handle file upload
+    if ($request->hasFile('foto_pasangan_edit')) {
+        // Delete old photo if exists
+        if ($partner->photo) {
+            Storage::disk('public')->delete($partner->photo);
+        }
         
+        $path = $request->file('foto_pasangan_edit')->store('partner_images', 'public');
+        $validated['photo'] = $path;
     }
-    public function delete_pasangan_anggota_keluarga() {
-        
+
+    // Update partner data
+    $partner->update([
+        'anggota_keluarga_id' => $validated['partner_id_edit'],
+        'nama' => $validated['nama_pasangan_edit'],
+        'jenis_kelamin' => $validated['jenis_kelamin_edit'],
+        'tanggal_lahir' => $validated['tanggal_lahir_edit'],
+        'urutan' => $validated['urutan_edit'],
+        'status_kehidupan' => $validated['status_kehidupan_edit'],
+        'tanggal_kematian' => $validated['status_kehidupan_edit'] == 'Wafat' ? $validated['tanggal_kematian_edit'] : null,
+        // 'alamat' => $validated['alamat_edit'],
+        'photo' => $validated['photo'] ?? $partner->photo
+    ]);
+
+    return redirect()->back()->with('success', 'Data pasangan berhasil diperbarui');
+    }
+    public function delete_pasangan_anggota_keluarga($id) {
+          $partner = Partner::findOrFail($id);
+
+        $partner->delete();
+
+        return redirect()->back()->with('success', 'Pasangan berhasil dihapus');
     }
 }

@@ -238,22 +238,47 @@
                 overflow-y: scroll !important;
             }
         }
+
+        #navs-pills-justified-profile {
+            overflow-x: auto !important;
+            overflow-y: auto !important;
+            touch-action: pan-x pan-y !important;
+            cursor: grab !important;
+            max-height: 500px !important;
+        }
+
+        .rip-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            /* background-color: rgba(0, 0, 0, 0.3); */
+            border-radius: 50%;
+            /* Match the image border-radius */
+        }
     </style>
 
-    @if(session('success'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Sukses!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonText: 'OK',
-                customClass: {
-                container: 'high-z-index' // Kelas custom untuk container
-            }
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        container: 'high-z-index' // Kelas custom untuk container
+                    }
+                });
             });
-        });
-    </script>
+        </script>
     @endif
 
     <div class="modal-group">
@@ -287,8 +312,7 @@
                                 </div>
                                 <div class="col mb-0">
                                     <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control"
-                                        required>
+                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control">
                                 </div>
                             </div>
                             <div class="row g-4">
@@ -387,15 +411,16 @@
                                 <div class="row">
                                     <div class="col mb-4">
                                         <label for="nama_anggota_keluarga_edit" class="form-label">Nama</label>
-                                        <input type="text" id="nama_anggota_keluarga_edit" name="nama_anggota_keluarga_edit"
-                                            class="form-control" placeholder="Nama Lengkap" value="{{ $anggota->nama }}"
-                                            required>
+                                        <input type="text" id="nama_anggota_keluarga_edit"
+                                            name="nama_anggota_keluarga_edit" class="form-control"
+                                            placeholder="Nama Lengkap" value="{{ $anggota->nama }}" required>
                                     </div>
                                 </div>
                                 <div class="row g-4">
                                     <div class="col mb-4">
                                         <label for="jenis_kelamin_edit" class="form-label">Jenis Kelamin</label>
-                                        <select id="jenis_kelamin_edit" name="jenis_kelamin_edit" class="form-select" required>
+                                        <select id="jenis_kelamin_edit" name="jenis_kelamin_edit" class="form-select"
+                                            required>
                                             <option value="Laki-laki"
                                                 {{ $anggota->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki
                                             </option>
@@ -407,7 +432,7 @@
                                     <div class="col mb-0">
                                         <label for="tanggal_lahir_edit" class="form-label">Tanggal Lahir</label>
                                         <input type="date" id="tanggal_lahir_edit" name="tanggal_lahir_edit"
-                                            class="form-control" value="{{ $anggota->tanggal_lahir }}" required>
+                                            class="form-control" value="{{ $anggota->tanggal_lahir }}">
                                     </div>
                                 </div>
                                 <div class="row g-4">
@@ -431,8 +456,10 @@
                                     <div class="col mb-0">
                                         <label for="urutan_edit" class="form-label">Urutan</label>
                                         <select id="urutan_edit" name="urutan_edit" class="form-select" required>
-                                            @for($i = 1; $i <= 14; $i++)
-                                                <option value="{{ $i }}" {{ $anggota->urutan == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                            @for ($i = 1; $i <= 14; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ $anggota->urutan == $i ? 'selected' : '' }}>{{ $i }}
+                                                </option>
                                             @endfor
                                         </select>
                                     </div>
@@ -440,9 +467,14 @@
                                 <div class="row g-4">
                                     <div class="col mb-4">
                                         <label for="status_kehidupan_edit" class="form-label">Status Kehidupan</label>
-                                        <select id="status_kehidupan_edit" name="status_kehidupan_edit" class="form-select" required>
-                                            <option value="Hidup" {{ $anggota->status_kehidupan == 'Hidup' ? 'selected' : '' }}>Hidup</option>
-                                            <option value="Wafat" {{ $anggota->status_kehidupan == 'Wafat' ? 'selected' : '' }}>Wafat</option>
+                                        <select id="status_kehidupan_edit" name="status_kehidupan_edit"
+                                            class="form-select" required>
+                                            <option value="Hidup"
+                                                {{ $anggota->status_kehidupan == 'Hidup' ? 'selected' : '' }}>Hidup
+                                            </option>
+                                            <option value="Wafat"
+                                                {{ $anggota->status_kehidupan == 'Wafat' ? 'selected' : '' }}>Wafat
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="col mb-0">
@@ -461,13 +493,13 @@
                                     <div class="col mb-4">
                                         <div class="mb-3">
                                             <label for="keluarga_image_edit" class="form-label">Upload Avatar</label>
-                                           <img class="img-thumbnail edit-image-preview mb-3"
+                                            <img class="img-thumbnail edit-image-preview mb-3"
                                                 style="max-width: 100px; max-height: 100px; object-fit: cover; aspect-ratio: 1/1; border-radius: 10px; 
-                                                @if ($anggota->photo == null)
-                                                    display: none;
-                                                @endif" src="{{ asset('storage/' . $anggota->photo) }}">
-                                            <input class="form-control edit-file-uploader" type="file" id="keluarga_image_edit"
-                                                name="keluarga_image_edit" accept="image/*" onchange="edit_upload()">
+                                                @if ($anggota->photo == null) display: none; @endif"
+                                                src="{{ asset('storage/' . $anggota->photo) }}">
+                                            <input class="form-control edit-file-uploader" type="file"
+                                                id="keluarga_image_edit" name="keluarga_image_edit" accept="image/*"
+                                                onchange="edit_upload()">
                                         </div>
                                     </div>
                                 </div>
@@ -482,46 +514,48 @@
                 </div>
             </div>
 
-             <div class="modal fade" id="deleteMemberModal{{ $anggota->id }}" data-bs-backdrop="static" tabindex="-1">
+            <div class="modal fade" id="deleteMemberModal{{ $anggota->id }}" data-bs-backdrop="static" tabindex="-1">
                 <div class="modal-dialog">
-                <div class="modal-content"> <!-- Ubah dari <form> ke <div> untuk wrapper -->
-                    <div class="modal-header text-center">
-                    <h5 class="modal-title" id="backDropModalTitle">Delete This Member?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-content"> <!-- Ubah dari <form> ke <div> untuk wrapper -->
+                        <div class="modal-header text-center">
+                            <h5 class="modal-title" id="backDropModalTitle">Delete This Member?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body justify-content-center text-center">
+                            <i class="fa-solid fa-triangle-exclamation fa-beat"
+                                style="color: #FF0000; font-size: 100px"></i>
+                            <span class="d-block mt-5">kamu Yakin Ingin Mengahapus Anggota Keluarga Ini? Data yang terhapus
+                                tidak dapat dipulihkan</span>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <form method="POST" action="{{ route('anggota.keluarga.delete', $anggota->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="modal-body justify-content-center text-center">
-                    <i class="fa-solid fa-triangle-exclamation fa-beat" style="color: #FF0000; font-size: 100px"></i>
-                    <span class="d-block mt-5">kamu Yakin Ingin Mengahapus Anggota Keluarga Ini? Data yang terhapus tidak dapat dipulihkan</span>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                    <form method="POST" action="{{ route('anggota.keluarga.delete', $anggota->id) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                    </div>
-                </div>
                 </div>
             </div>
         @endforeach
-        <div class="modal fade" id="partnerModal" tabindex="-1" aria-hidden="true">
+
+        <div class="modal fade" id="addPartnerModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel3">Tambah Pasangan Anggota Keluarga</h5>
+                        <h5 class="modal-title" id="exampleModalLabel3">Tambah Pasangan Keluarga</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('pasangan.anggota.keluarga.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
-                            @if ($trahs->id)
-                                <input type="hidden" name="tree_id" value="{{ $trahs->id }}">
-                            @endif
+                            <input type="hidden" name="tree_id" value="{{ $trahs->id }}">
                             <div class="row">
                                 <div class="col mb-4">
-                                    <label for="nama_pasangan_anggota_keluarga" class="form-label">Nama Pasangan</label>
+                                    <label for="nama_pasangan_anggota_keluarga" class="form-label">Nama <span style="color: red">*</span></label>
                                     <input type="text" id="nama_pasangan_anggota_keluarga"
                                         name="nama_pasangan_anggota_keluarga" class="form-control"
                                         placeholder="Nama Lengkap" required>
@@ -529,31 +563,30 @@
                             </div>
                             <div class="row g-4">
                                 <div class="col mb-4">
-                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span style="color: red">*</span></label>
                                     <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
+                                        <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
                                 </div>
                                 <div class="col mb-0">
                                     <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control"
-                                        required>
+                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control">
                                 </div>
                             </div>
                             <div class="row g-4">
                                 <div class="col mb-4">
-                                    <label for="partner_id" class="form-label">Pasangan</label>
+                                    <label for="partner_id" class="form-label">Pasangan Dari <span style="color: red">*</span></label>
                                     <select id="partner_id" name="partner_id" class="form-select">
-                                        <option value="">Pilih Pasangan</option> <!-- Default empty option -->
+                                        <option value="">Pilih Anggota Keluarga</option>
                                         @foreach ($existingMembers as $member)
-                                            <option value="{{ $member->id }}"
-                                                {{ old('partner_id') == $member->id ? 'selected' : '' }}>
+                                            <option value="{{ $member->id }}">
                                                 {{ $member->nama }}
                                                 @if ($member->jenis_kelamin === 'Laki-Laki')
-                                                    (Pak)
+                                                    (Tn)
                                                 @else
-                                                    (Ibu)
+                                                    (Ny)
                                                 @endif
                                             </option>
                                         @endforeach
@@ -562,20 +595,9 @@
                                 <div class="col mb-0">
                                     <label for="urutan" class="form-label">Urutan</label>
                                     <select id="urutan" name="urutan" class="form-select" required>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
+                                        @for ($i = 1; $i <= 14; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
                                     </select>
                                 </div>
                             </div>
@@ -583,43 +605,150 @@
                                 <div class="col mb-4">
                                     <label for="status_kehidupan" class="form-label">Status Kehidupan</label>
                                     <select id="status_kehidupan" name="status_kehidupan" class="form-select" required>
-                                        <option value="Hidup">Hidup</option>
+                                        <option value="Hidup" selected>Hidup</option>
                                         <option value="Wafat">Wafat</option>
                                     </select>
                                 </div>
                                 <div class="col mb-0">
                                     <label for="tanggal_kematian" class="form-label">Tanggal Kematian</label>
-                                    <input type="date" id="tanggal_kematian" class="form-control"
-                                        name="tanggal_kematian">
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="alamat" class="form-label">Alamat</label>
-                                    <textarea class="form-control" name="alamat" required></textarea>
+                                    <input type="date" id="tanggal_kematian" name="tanggal_kematian"
+                                        class="form-control">
                                 </div>
                             </div>
                             <div class="row g-4">
                                 <div class="col mb-4">
                                     <div class="mb-3">
-                                        <label for="partner_image" class="form-label">Upload Avatar</label>
-                                        <img src="" class="img-thumbnail image-partner-preview mb-3"
-                                            style="display: none; max-width: 100px; max-height: 100px; object-fit: cover; aspect-ratio: 1/1; border-radius: 10px;">
-                                        <input class="form-control file-uploader-partner" type="file"
-                                            id="partner_image" name="partner_image" accept="image/*"
-                                            onchange="uploadpartner()">
+                                        <label for="partner_image" class="form-label">Upload Foto</label>
+                                        <img src="" class="img-thumbnail image-preview mb-3"
+                                            style="display: none; max-width: 100px; max-height: 100px;">
+                                        <input class="form-control" type="file" id="partner_image"
+                                            name="partner_image" accept="image/*" onchange="previewImage(this)">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
+        @foreach ($anggota_keluarga as $anggota)
+    @foreach ($anggota->partners as $partner)
+        <div class="modal fade" id="editPartnerMemberModal{{ $partner->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel3">Edit Pasangan Keluarga</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('pasangan.anggota.keluarga.update', $partner->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <input type="hidden" name="tree_id" value="{{ $trah->id }}">
+                            <div class="row">
+                                <div class="col mb-4">
+                                    <label for="nama_pasangan_edit" class="form-label">Nama <span style="color: red">*</span></label>
+                                    <input type="text" id="nama_pasangan_edit" name="nama_pasangan_edit" class="form-control" placeholder="Nama Lengkap" value="{{ $partner->nama }}" required>
+                                </div>
+                            </div>
+                            <div class="row g-4">
+                                <div class="col mb-4">
+                                    <label for="jenis_kelamin_edit" class="form-label">Jenis Kelamin <span style="color: red">*</span></label>
+                                    <select id="jenis_kelamin_edit" name="jenis_kelamin_edit" class="form-select" required>
+                                        <option value="Laki-laki" {{ $partner->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                        <option value="Perempuan" {{ $partner->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-0">
+                                    <label for="tanggal_lahir_edit" class="form-label">Tanggal Lahir</label>
+                                    <input type="date" id="tanggal_lahir_edit" name="tanggal_lahir_edit" class="form-control" value="{{ $partner->tanggal_lahir ? \Carbon\Carbon::parse($partner->tanggal_lahir)->format('Y-m-d') : '' }}">
+                                </div>
+                            </div>
+                            <div class="row g-4">
+                                <div class="col mb-4">
+                                    <label for="partner_id_edit" class="form-label">Pasangan Dari <span style="color: red">*</span></label>
+                                    <select id="partner_id_edit" name="partner_id_edit" class="form-select" required>
+                                        @foreach ($existingMembers as $member)
+                                            <option value="{{ $member->id }}" {{ $partner->anggota_keluarga_id == $member->id ? 'selected' : '' }}>
+                                                {{ $member->nama }}
+                                                @if ($member->jenis_kelamin === 'Laki-Laki')
+                                                    (Tn)
+                                                @else
+                                                    (Ny)
+                                                @endif
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col mb-0">
+                                    <label for="urutan_edit" class="form-label">Urutan</label>
+                                    <select id="urutan_edit" name="urutan_edit" class="form-select" required>
+                                        @for ($i = 1; $i <= 14; $i++)
+                                            <option value="{{ $i }}" {{ $partner->urutan == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row g-4">
+                                <div class="col mb-4">
+                                    <label for="status_kehidupan_edit" class="form-label">Status Kehidupan</label>
+                                    <select id="status_kehidupan_edit" name="status_kehidupan_edit" class="form-select" required>
+                                        <option value="Hidup" {{ $partner->status_kehidupan == 'Hidup' ? 'selected' : '' }}>Hidup</option>
+                                        <option value="Wafat" {{ $partner->status_kehidupan == 'Wafat' ? 'selected' : '' }}>Wafat</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-0">
+                                    <label for="tanggal_kematian_edit" class="form-label">Tanggal Kematian</label>
+                                    <input type="date" id="tanggal_kematian_edit" name="tanggal_kematian_edit" class="form-control" value="{{ $partner->tanggal_kematian ? \Carbon\Carbon::parse($partner->tanggal_kematian)->format('Y-m-d') : '' }}">
+                                </div>
+                            </div>
+                            {{-- <div class="row g-4">
+                                <div class="col mb-4">
+                                    <label for="alamat_edit" class="form-label">Alamat</label>
+                                    <textarea class="form-control" id="alamat_edit" name="alamat_edit" required>{{ $partner->alamat }}</textarea>
+                                </div>
+                            </div> --}}
+                            <div class="row g-4">
+                                <div class="col mb-4">
+                                    <div class="mb-3">
+                                        <label for="foto_pasangan_edit" class="form-label">Upload Foto</label>
+                                        @if($partner->photo)
+                                            <img src="{{ asset('storage/'.$partner->photo) }}" class="img-thumbnail image-preview mb-3" style="max-width: 100px; max-height: 100px;">
+                                        @else
+                                            <img src="" class="img-thumbnail image-preview mb-3" style="display: none; max-width: 100px; max-height: 100px;">
+                                        @endif
+                                        <input class="form-control" type="file" id="foto_pasangan_edit" name="foto_pasangan_edit" accept="image/*" onchange="previewImage(this)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+@endforeach
+        
+    </div>
+
+    <div class="card mb-3">
+        @if ($trahs->trah_name)
+            <h5 class="card-header d-flex flex-column fw-bold">
+                {{ $trahs->trah_name }}
+                @if ($trahs->description)
+                    <small class="fw-light">{{ $trahs->description }}</small>
+                @endif
+            </h5>
+        @endif
     </div>
 
     <div class="nav-align-top">
@@ -657,105 +786,339 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
                 <div class="">
-                    @if ($trahs->trah_name)
-                        <h5 class="card-header d-flex flex-column mb-3">{{ $trahs->trah_name }}
-                            @if ($trahs->description)
-                                <small class="fw-light">{{ $trahs->description }}</small>
-                            @endif
-                        </h5>
-                    @endif
+                    <div class="nav-align-top">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-top-align-home" aria-controls="navs-top-align-home"
+                                    aria-selected="true">
+                                    Anggota Keluarga
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-top-align-profile" aria-controls="navs-top-align-profile"
+                                    aria-selected="false">
+                                    Pasangan Anggota Keluarga
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="navs-top-align-home" role="tabpanel">
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
+                                        data-bs-target="#familyModal">
+                                        Tambah Anggota Keluarga
+                                    </button>
 
-                    <div class="card-body">
-                        <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
-                            data-bs-target="#familyModal">
-                            Tambah Anggota Keluarga
-                        </button>
-                        <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
-                            data-bs-target="#partnerModal">
-                            Tambah Pasangan
-                        </button>
+                                    <div class="">
+                                        <div class="card-body pt-0">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_length">
+                                                        <label>
+                                                            Menampilkan
+                                                            <select id="entriesPerPage" class="form-select form-select-sm"
+                                                                style="width: 80px; display: inline-block;">
+                                                                <option value="5">5</option>
+                                                                <option value="10" selected>10</option>
+                                                                <option value="25">25</option>
+                                                                <option value="50">50</option>
+                                                                <option value="100">100</option>
+                                                            </select> data
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_filter">
+                                                        <label class="float-end">
+                                                            Search:
+                                                            <input type="search" id="searchInput"
+                                                                class="form-control form-control-sm"
+                                                                style="width: 200px; display: inline-block;"
+                                                                placeholder="Type to search...">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                        <div class="table-responsive md:overflow-auto">
-                            <table class="table table-responsive-lg table-bordered table-striped dataTable no-footer"
-                                style="" id="datatables" aria-describedby="datatables_info">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th class="text-center sorting col-no" scope="col" tabindex="0"
-                                            aria-controls="datatables" rowspan="1" colspan="1"
-                                            aria-label="Nomor: activate to sort column ascending" style="width: 49.7px;">No
-                                        </th>
-                                        <th class="text-center sorting" scope="col" tabindex="0"
-                                            aria-controls="datatables" rowspan="1" colspan="1"
-                                            aria-label="Nama: activate to sort column ascending" style="width: 65px;">Nama
-                                            Lengkap</th>
-                                        <th class="text-center sorting" scope="col" tabindex="0"
-                                            aria-controls="datatables" rowspan="1" colspan="1"
-                                            aria-label="Pengusul: activate to sort column ascending" style="width: 64px;">
-                                            Jenis Kelamin</th>
-                                        <th class="text-center sorting" scope="col" tabindex="0"
-                                            aria-controls="datatables" rowspan="1" colspan="1"
-                                            aria-label="Penerima: activate to sort column ascending" style="width: 40px;">
-                                            Tanggal lahir</th>
-                                        <th class="text-center sorting" scope="col" tabindex="0"
-                                            aria-controls="datatables" rowspan="1" colspan="1"
-                                            aria-label="Penerima: activate to sort column ascending" style="width: 67px;">
-                                            Status Kehidupan</th>
-                                        <th class="text-center sorting" scope="col" tabindex="0"
-                                            aria-controls="datatables" rowspan="1" colspan="1"
-                                            aria-label="Aksi: activate to sort column ascending" style="width: 130px;">Aksi
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($anggota_keluarga as $anggota)
-                                        <tr class="odd">
-                                            <td class="text-center col-no" style="overflow: hidden;;">
-                                                {{ $loop->iteration }}
-                                            </td>
-                                            <td class="" style="overflow: hidden">
-                                                <div class="ellipsis text-center">
-                                                    {{ $anggota->nama }}
+                                            <!-- Table -->
+                                            <div class="table-responsive md:overflow-auto">
+                                                <table
+                                                    class="table table-responsive-lg table-bordered table-striped dataTable no-footer"
+                                                    id="datatables" aria-describedby="datatables_info">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th class="text-center sorting col-no" scope="col"
+                                                                tabindex="0" aria-controls="datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Nomor: activate to sort column ascending"
+                                                                style="width: 49.7px;">No
+                                                            </th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Nama: activate to sort column ascending"
+                                                                style="width: 65px;">Nama
+                                                                Lengkap</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Pengusul: activate to sort column ascending"
+                                                                style="width: 64px;">
+                                                                Jenis Kelamin</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Penerima: activate to sort column ascending"
+                                                                style="width: 40px;">
+                                                                Tanggal lahir</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Penerima: activate to sort column ascending"
+                                                                style="width: 67px;">
+                                                                Status Kehidupan</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Aksi: activate to sort column ascending"
+                                                                style="width: 130px;">Aksi
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($anggota_keluarga as $anggota)
+                                                            <tr class="odd">
+                                                                <td class="text-center col-no" style="overflow: hidden;">
+                                                                    {{ $loop->iteration }}
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        {{ $anggota->nama }}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        {{ $anggota->jenis_kelamin }}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        {{ \Carbon\Carbon::parse($anggota->tanggal_lahir)->translatedFormat('d-F-Y') }}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        <span
+                                                                            class="badge @if ($anggota->status_kehidupan == 'Hidup') text-bg-primary @else text-bg-danger @endif">
+                                                                            {{ $anggota->status_kehidupan }}
+                                                                        </span>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="justify-content-center text-center"
+                                                                    style="overflow: hidden">
+                                                                    <a class="badge bg-label-warning m-1 py-1"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editMemberModal{{ $anggota->id }}">
+                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                    </a>
+                                                                    <a class="badge bg-label-danger m-1 py-1"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#deleteMemberModal{{ $anggota->id }}">
+                                                                        <i class="fa-solid fa-xmark"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <!-- Table Footer -->
+                                            <div class="row mt-3">
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_info" id="datatables_info" role="status"
+                                                        aria-live="polite">
+                                                        Showing 1 to 10 of {{ count($anggota_keluarga) }} entries
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td class="" style="overflow: hidden">
-                                                <div class="ellipsis text-center">
-                                                    {{ $anggota->jenis_kelamin }}
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_paginate paging_simple_numbers float-end">
+                                                        <ul class="pagination" id="pagination">
+                                                            <li class="paginate_button page-item previous disabled">
+                                                                <a href="#" class="page-link">Previous</a>
+                                                            </li>
+                                                            <li class="paginate_button page-item active">
+                                                                <a href="#" class="page-link">1</a>
+                                                            </li>
+                                                            <li class="paginate_button page-item next disabled">
+                                                                <a href="#" class="page-link">Next</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td class="" style="overflow: hidden">
-                                                <div class="ellipsis text-center">
-                                                    {{ \Carbon\Carbon::parse($anggota->tanggal_lahir)->translatedFormat('d-F-Y') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="navs-top-align-profile" role="tabpanel">
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
+                                        data-bs-target="#addPartnerModal">
+                                        Tambah Pasangan
+                                    </button>
+
+                                    <div class="">
+                                        <div class="card-body pt-0">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_length">
+                                                        <label>
+                                                            Menampilkan
+                                                            <select id="entriesPerPage" class="form-select form-select-sm"
+                                                                style="width: 80px; display: inline-block;">
+                                                                <option value="5">5</option>
+                                                                <option value="10" selected>10</option>
+                                                                <option value="25">25</option>
+                                                                <option value="50">50</option>
+                                                                <option value="100">100</option>
+                                                            </select> data
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td class="" style="overflow: hidden">
-                                                <div class="ellipsis text-center">
-                                                    <span
-                                                        class="badge 
-                                @if ($anggota->status_kehidupan == 'Hidup') text-bg-primary
-                                @else
-                                    text-bg-danger @endif
-                                ">{{ $anggota->status_kehidupan }}</span>
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_filter">
+                                                        <label class="float-end">
+                                                            Search:
+                                                            <input type="search" id="searchInput"
+                                                                class="form-control form-control-sm"
+                                                                style="width: 200px; display: inline-block;"
+                                                                placeholder="Type to search...">
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td class="justify-content-center text-center" style="overflow: hidden">
-                                                <a class="badge bg-label-warning m-1 py-1" data-bs-toggle="modal"
-                                                    data-bs-target="#editMemberModal{{ $anggota->id }}">
-                                                    <i class="fa-solid fa-pencil"></i>
-                                                </a>
-                                                <a class="badge bg-label-danger m-1 py-1" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteMemberModal{{ $anggota->id }}">
-                                                    <i class="fa-solid fa-xmark"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                            </div>
+
+                                            <!-- Table -->
+                                            <div class="table-responsive md:overflow-auto">
+                                                <table
+                                                    class="table table-responsive-lg table-bordered table-striped dataTable no-footer"
+                                                    id="datatables" aria-describedby="datatables_info">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th class="text-center sorting col-no" scope="col"
+                                                                tabindex="0" aria-controls="datatables" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Nomor: activate to sort column ascending"
+                                                                style="width: 49.7px;">No
+                                                            </th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Nama: activate to sort column ascending"
+                                                                style="width: 65px;">Nama
+                                                                Lengkap</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Pengusul: activate to sort column ascending"
+                                                                style="width: 64px;">
+                                                                Jenis Kelamin</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Penerima: activate to sort column ascending"
+                                                                style="width: 40px;">
+                                                                Tanggal lahir</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Penerima: activate to sort column ascending"
+                                                                style="width: 67px;">
+                                                                Status Kehidupan</th>
+                                                            <th class="text-center sorting" scope="col" tabindex="0"
+                                                                aria-controls="datatables" rowspan="1" colspan="1"
+                                                                aria-label="Aksi: activate to sort column ascending"
+                                                                style="width: 130px;">Aksi
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($anggota_keluarga as $anggota)
+                                                            @foreach ( $anggota->partners as $partner )    
+                                                            <tr class="odd">
+                                                                <td class="text-center col-no" style="overflow: hidden;">
+                                                                    {{ $loop->iteration }}
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        {{ $partner->nama }}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        {{ $partner->jenis_kelamin }}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        {{ \Carbon\Carbon::parse($partner->tanggal_lahir)->translatedFormat('d-F-Y') }}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="" style="overflow: hidden">
+                                                                    <div class="ellipsis text-center">
+                                                                        <span
+                                                                            class="badge @if ($partner->status_kehidupan == 'Hidup') text-bg-primary @else text-bg-danger @endif">
+                                                                            {{ $partner->status_kehidupan }}
+                                                                        </span>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="justify-content-center text-center"
+                                                                    style="overflow: hidden">
+                                                                    <a class="badge bg-label-warning m-1 py-1"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editPartnerMemberModal{{ $partner->id }}">
+                                                                        <i class="fa-solid fa-pencil"></i>
+                                                                    </a>
+                                                                    <a class="badge bg-label-danger m-1 py-1"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#deletePartnerMemberModal{{ $partner->id }}">
+                                                                        <i class="fa-solid fa-xmark"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <!-- Table Footer -->
+                                            <div class="row mt-3">
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_info" id="datatables_info" role="status"
+                                                        aria-live="polite">
+                                                        Showing 1 to 10 of {{ count($anggota_keluarga) }} entries
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="dataTables_paginate paging_simple_numbers float-end">
+                                                        <ul class="pagination" id="pagination">
+                                                            <li class="paginate_button page-item previous disabled">
+                                                                <a href="#" class="page-link">Previous</a>
+                                                            </li>
+                                                            <li class="paginate_button page-item active">
+                                                                <a href="#" class="page-link">1</a>
+                                                            </li>
+                                                            <li class="paginate_button page-item next disabled">
+                                                                <a href="#" class="page-link">Next</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+            <div class="tab-pane fade grab" id="navs-pills-justified-profile" role="tabpanel">
                 <div class="mb-3 overflow-auto">
                     <div class="row justify-center m-5">
                         @if (is_iterable($rootMember))
@@ -778,353 +1141,168 @@
         </div>
     </div>
 
-    {{-- <div class="card mb-3 overflow-auto">
-        <div class="row justify-center m-5">
-            @if (is_iterable($rootMember))
-                <div class="tree">
-                    <ul>
-                        @foreach ($rootMember->sortBy('urutan') as $anggota)
-                            @include('partial.anggota_keluarga', ['member' => $anggota])
-                        @endforeach
-                    </ul>
-                </div>
-            @else
-                @include('partial.anggota_keluarga', ['member' => $rootMember])
-            @endif
-        </div>
-    </div>
-
-    <div class="card">
-        @if ($trahs->trah_name)
-            <h5 class="card-header d-flex flex-column">{{ $trahs->trah_name }}
-                @if ($trahs->description)
-                    <small class="fw-light">{{ $trahs->description }}</small>
-                @endif
-            </h5>
-        @endif
-
-        <div class="card-body">
-            <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#familyModal">
-                Tambah Anggota Keluarga
-            </button>
-            <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#partnerModal">
-                Tambah Pasangan
-            </button>
-            <div class="modal-group">
-                <div class="modal fade" id="familyModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel3">Tambah Anggota Keluarga</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form action="{{ route('anggota.keluarga.store') }}" method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="modal-body">
-                                    @if ($trahs->id)
-                                        <input type="hidden" name="tree_id" value="{{ $trahs->id }}">
-                                    @endif
-                                    <div class="row">
-                                        <div class="col mb-4">
-                                            <label for="nama_anggota_keluarga" class="form-label">Nama</label>
-                                            <input type="text" id="nama_anggota_keluarga" name="nama_anggota_keluarga"
-                                                class="form-control" placeholder="Nama Lengkap" required>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                            <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
-                                                <option value="Laki-laki">Laki-laki</option>
-                                                <option value="Perempuan">Perempuan</option>
-                                            </select>
-                                        </div>
-                                        <div class="col mb-0">
-                                            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                            <input type="date" id="tanggal_lahir" name="tanggal_lahir"
-                                                class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="parent_id" class="form-label">Orang Tua</label>
-                                            <select id="parent_id" name="parent_id" class="form-select">
-                                                <option value="">Pilih Orang Tua</option>
-                                                <!-- Default empty option -->
-                                                @foreach ($existingMembers as $member)
-                                                    <option value="{{ $member->id }}"
-                                                        {{ old('parent_id') == $member->id ? 'selected' : '' }}>
-                                                        {{ $member->nama }}
-                                                        @if ($member->jenis_kelamin === 'Laki-Laki')
-                                                            (Pak)
-                                                        @else
-                                                            (Ibu)
-                                                        @endif
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col mb-0">
-                                            <label for="urutan" class="form-label">Urutan</label>
-                                            <select id="urutan" name="urutan" class="form-select" required>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14">14</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="status_kehidupan" class="form-label">Status Kehidupan</label>
-                                            <select id="status_kehidupan" name="status_kehidupan" class="form-select"
-                                                required>
-                                                <option value="Hidup">Hidup</option>
-                                                <option value="Wafat">Wafat</option>
-                                            </select>
-                                        </div>
-                                        <div class="col mb-0">
-                                            <label for="tanggal_kematian" class="form-label">Tanggal Kematian</label>
-                                            <input type="date" id="tanggal_kematian" class="form-control"
-                                                name="tanggal_kematian">
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="alamat" class="form-label">Alamat</label>
-                                            <textarea class="form-control" name="alamat" required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <div class="mb-3">
-                                                <label for="keluarga_image" class="form-label">Upload Avatar</label>
-                                                <img src="" class="img-thumbnail image-preview mb-3"
-                                                    style="display: none; max-width: 100px; max-height: 100px; object-fit: cover; aspect-ratio: 1/1; border-radius: 10px;">
-                                                <input class="form-control file-uploader" type="file"
-                                                    id="keluarga_image" name="keluarga_image" accept="image/*"
-                                                    onchange="upload()">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-label-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="partnerModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel3">Tambah Pasangan Anggota Keluarga</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form action="{{ route('pasangan.anggota.keluarga.store') }}" method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="modal-body">
-                                    @if ($trahs->id)
-                                        <input type="hidden" name="tree_id" value="{{ $trahs->id }}">
-                                    @endif
-                                    <div class="row">
-                                        <div class="col mb-4">
-                                            <label for="nama_pasangan_anggota_keluarga" class="form-label">Nama
-                                                Pasangan</label>
-                                            <input type="text" id="nama_pasangan_anggota_keluarga"
-                                                name="nama_pasangan_anggota_keluarga" class="form-control"
-                                                placeholder="Nama Lengkap" required>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                            <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
-                                                <option value="Laki-laki">Laki-laki</option>
-                                                <option value="Perempuan">Perempuan</option>
-                                            </select>
-                                        </div>
-                                        <div class="col mb-0">
-                                            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                            <input type="date" id="tanggal_lahir" name="tanggal_lahir"
-                                                class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="partner_id" class="form-label">Pasangan</label>
-                                            <select id="partner_id" name="partner_id" class="form-select">
-                                                <option value="">Pilih Pasangan</option>
-                                                <!-- Default empty option -->
-                                                @foreach ($existingMembers as $member)
-                                                    <option value="{{ $member->id }}"
-                                                        {{ old('partner_id') == $member->id ? 'selected' : '' }}>
-                                                        {{ $member->nama }}
-                                                        @if ($member->jenis_kelamin === 'Laki-Laki')
-                                                            (Pak)
-                                                        @else
-                                                            (Ibu)
-                                                        @endif
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col mb-0">
-                                            <label for="urutan" class="form-label">Urutan</label>
-                                            <select id="urutan" name="urutan" class="form-select" required>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14">14</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="status_kehidupan" class="form-label">Status Kehidupan</label>
-                                            <select id="status_kehidupan" name="status_kehidupan" class="form-select"
-                                                required>
-                                                <option value="Hidup">Hidup</option>
-                                                <option value="Wafat">Wafat</option>
-                                            </select>
-                                        </div>
-                                        <div class="col mb-0">
-                                            <label for="tanggal_kematian" class="form-label">Tanggal Kematian</label>
-                                            <input type="date" id="tanggal_kematian" class="form-control"
-                                                name="tanggal_kematian">
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <label for="alamat" class="form-label">Alamat</label>
-                                            <textarea class="form-control" name="alamat" required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row g-4">
-                                        <div class="col mb-4">
-                                            <div class="mb-3">
-                                                <label for="partner_image" class="form-label">Upload Avatar</label>
-                                                <img src="" class="img-thumbnail image-partner-preview mb-3"
-                                                    style="display: none; max-width: 100px; max-height: 100px; object-fit: cover; aspect-ratio: 1/1; border-radius: 10px;">
-                                                <input class="form-control file-uploader-partner" type="file"
-                                                    id="partner_image" name="partner_image" accept="image/*"
-                                                    onchange="uploadpartner()">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-label-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <table class="table table-responsive-lg table-bordered table-striped dataTable no-footer" style="width: 100%;"
-                id="datatables" aria-describedby="datatables_info">
-                <thead class="table-dark">
-                    <tr>
-                        <th class="text-center sorting col-no" scope="col" tabindex="0" aria-controls="datatables"
-                            rowspan="1" colspan="1" aria-label="Nomor: activate to sort column ascending"
-                            style="width: 49.7px;">No</th>
-                        <th class="text-center sorting" scope="col" tabindex="0" aria-controls="datatables"
-                            rowspan="1" colspan="1" aria-label="Nama: activate to sort column ascending"
-                            style="width: 65px;">Nama Lengkap</th>
-                        <th class="text-center sorting" scope="col" tabindex="0" aria-controls="datatables"
-                            rowspan="1" colspan="1" aria-label="Pengusul: activate to sort column ascending"
-                            style="width: 64px;">Jenis Kelamin</th>
-                        <th class="text-center sorting" scope="col" tabindex="0" aria-controls="datatables"
-                            rowspan="1" colspan="1" aria-label="Penerima: activate to sort column ascending"
-                            style="width: 40px;">Tanggal lahir</th>
-                        <th class="text-center sorting" scope="col" tabindex="0" aria-controls="datatables"
-                            rowspan="1" colspan="1" aria-label="Penerima: activate to sort column ascending"
-                            style="width: 67px;">Status Kehidupan</th>
-                        <th class="text-center sorting" scope="col" tabindex="0" aria-controls="datatables"
-                            rowspan="1" colspan="1" aria-label="Aksi: activate to sort column ascending"
-                            style="width: 130px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($anggota_keluarga as $anggota)
-                        <tr class="odd">
-                            <td class="text-center col-no" style="overflow: hidden;;">
-                                {{ $loop->iteration }}
-                            </td>
-                            <td class="" style="overflow: hidden">
-                                <div class="ellipsis text-center">
-                                    {{ $anggota->nama }}
-                                </div>
-                            </td>
-                            <td class="" style="overflow: hidden">
-                                <div class="ellipsis text-center">
-                                    {{ $anggota->jenis_kelamin }}
-                                </div>
-                            </td>
-                            <td class="" style="overflow: hidden">
-                                <div class="ellipsis text-center">
-                                    {{ \Carbon\Carbon::parse($anggota->tanggal_lahir)->translatedFormat('d-F-Y') }}
-                                </div>
-                            </td>
-                            <td class="" style="overflow: hidden">
-                                <div class="ellipsis text-center">
-                                    <span
-                                        class="badge 
-                    @if ($anggota->status_kehidupan == 'Hidup') text-bg-primary
-                    @else
-                        text-bg-danger @endif
-                    ">{{ $anggota->status_kehidupan }}</span>
-                                </div>
-                            </td>
-                            <td class="justify-content-center text-center" style="overflow: hidden">
-                                <a class="badge bg-label-warning m-1 py-1" data-bs-toggle="modal"
-                                    data-bs-target="#editModal{{ $anggota->id }}">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                                <a class="badge bg-label-danger m-1 py-1" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal{{ $anggota->id }}">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div> --}}
-
-
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('datatables');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const entriesSelect = document.getElementById('entriesPerPage');
+            const searchInput = document.getElementById('searchInput');
+            const infoLabel = document.getElementById('datatables_info');
+            const pagination = document.getElementById('pagination');
+
+            let currentPage = 1;
+            let entriesPerPage = parseInt(entriesSelect.value);
+            let filteredRows = rows;
+
+            // Fungsi untuk memfilter baris berdasarkan pencarian
+            function filterRows() {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                if (searchTerm === '') {
+                    filteredRows = rows;
+                } else {
+                    filteredRows = rows.filter(row => {
+                        const cells = row.querySelectorAll('td');
+                        return Array.from(cells).some(cell =>
+                            cell.textContent.toLowerCase().includes(searchTerm)
+                        );
+                    });
+                }
+
+                currentPage = 1;
+                updateTable();
+            }
+
+            // Fungsi untuk memperbarui tampilan tabel
+            function updateTable() {
+                const startIndex = (currentPage - 1) * entriesPerPage;
+                const endIndex = startIndex + entriesPerPage;
+                const paginatedRows = filteredRows.slice(startIndex, endIndex);
+
+                // Sembunyikan semua baris
+                rows.forEach(row => row.style.display = 'none');
+
+                // Tampilkan baris yang sesuai dengan halaman saat ini
+                paginatedRows.forEach(row => row.style.display = '');
+
+                // Update info label
+                const totalRows = filteredRows.length;
+                const startRow = totalRows > 0 ? startIndex + 1 : 0;
+                const endRow = Math.min(endIndex, totalRows);
+
+                infoLabel.textContent = `Showing ${startRow} to ${endRow} of ${totalRows} entries`;
+
+                // Update pagination
+                updatePagination(totalRows);
+            }
+
+            // Fungsi untuk memperbarui tampilan pagination
+            function updatePagination(totalRows) {
+                pagination.innerHTML = '';
+                const totalPages = Math.ceil(totalRows / entriesPerPage);
+
+                // Tombol Previous
+                const prevLi = document.createElement('li');
+                prevLi.className = `paginate_button page-item previous ${currentPage === 1 ? 'disabled' : ''}`;
+                prevLi.innerHTML = '<a href="#" class="page-link">Previous</a>';
+                prevLi.addEventListener('click', e => {
+                    e.preventDefault();
+                    if (currentPage > 1) {
+                        currentPage--;
+                        updateTable();
+                    }
+                });
+                pagination.appendChild(prevLi);
+
+                // Tombol halaman
+                const maxVisiblePages = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                }
+
+                if (startPage > 1) {
+                    const firstLi = document.createElement('li');
+                    firstLi.className = 'paginate_button page-item';
+                    firstLi.innerHTML = '<a href="#" class="page-link">1</a>';
+                    firstLi.addEventListener('click', e => {
+                        e.preventDefault();
+                        currentPage = 1;
+                        updateTable();
+                    });
+                    pagination.appendChild(firstLi);
+
+                    if (startPage > 2) {
+                        const ellipsisLi = document.createElement('li');
+                        ellipsisLi.className = 'paginate_button page-item disabled';
+                        ellipsisLi.innerHTML = '<a href="#" class="page-link">...</a>';
+                        pagination.appendChild(ellipsisLi);
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageLi = document.createElement('li');
+                    pageLi.className = `paginate_button page-item ${i === currentPage ? 'active' : ''}`;
+                    pageLi.innerHTML = `<a href="#" class="page-link">${i}</a>`;
+                    pageLi.addEventListener('click', e => {
+                        e.preventDefault();
+                        currentPage = i;
+                        updateTable();
+                    });
+                    pagination.appendChild(pageLi);
+                }
+
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        const ellipsisLi = document.createElement('li');
+                        ellipsisLi.className = 'paginate_button page-item disabled';
+                        ellipsisLi.innerHTML = '<a href="#" class="page-link">...</a>';
+                        pagination.appendChild(ellipsisLi);
+                    }
+
+                    const lastLi = document.createElement('li');
+                    lastLi.className = 'paginate_button page-item';
+                    lastLi.innerHTML = `<a href="#" class="page-link">${totalPages}</a>`;
+                    lastLi.addEventListener('click', e => {
+                        e.preventDefault();
+                        currentPage = totalPages;
+                        updateTable();
+                    });
+                    pagination.appendChild(lastLi);
+                }
+
+                // Tombol Next
+                const nextLi = document.createElement('li');
+                nextLi.className = `paginate_button page-item next ${currentPage === totalPages ? 'disabled' : ''}`;
+                nextLi.innerHTML = '<a href="#" class="page-link">Next</a>';
+                nextLi.addEventListener('click', e => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        updateTable();
+                    }
+                });
+                pagination.appendChild(nextLi);
+            }
+
+            // Event listeners
+            entriesSelect.addEventListener('change', function() {
+                entriesPerPage = parseInt(this.value);
+                currentPage = 1;
+                updateTable();
+            });
+
+            searchInput.addEventListener('input', function() {
+                filterRows();
+            });
+
+            // Inisialisasi tabel
+            updateTable();
+        });
+
         function upload() {
             const fileUploadInput = document.querySelector('.file-uploader');
             const image = fileUploadInput.files[0];
@@ -1182,7 +1360,8 @@
                 profilePicture.style.display = 'block'; // Show the image
             }
         }
-        function edit_upload(){
+
+        function edit_upload() {
             const fileUploadInput = document.querySelector('.edit-file-uploader');
             const image = fileUploadInput.files[0];
 

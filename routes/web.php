@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 //     return redirect()->route('login');
 // })->middleware('guest');
 
-Route::middleware(['auth', 'verified', 'role:user|admin'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return redirect()->route('user.dashboard');
     });
@@ -74,11 +74,14 @@ Route::delete('keluarga/detail/public/delete/{id}', [SilsilahController::class, 
 
 Route::post('keluarga/detail/public/add/pasangan', [SilsilahController::class, 'create_pasangan_anggota_keluarga'])->name('pasangan.anggota.keluarga.store');
 
-Route::get('keluarga/detail/public/edit/{id}', [SilsilahController::class, 'edit_anggota_keluarga'])->name('anggota.keluarga.edit');
+Route::get('keluarga/detail/public/edit/pasangan/{id}', [SilsilahController::class, 'edit_pasangan_anggota_keluarga'])->name('pasangan.anggota.keluarga.edit');
 
-Route::get('keluarga/detail/public/update/{id}', [SilsilahController::class, 'update_anggota_keluarga'])->name('anggota.keluarga.update');
+Route::put('keluarga/detail/public/update/pasangan/{id}', [SilsilahController::class, 'update_pasangan_anggota_keluarga'])->name('pasangan.anggota.keluarga.update');
 
-Route::delete('keluarga/detail/public/delete/{id}', [SilsilahController::class, 'delete_anggota_keluarga'])->name('anggota.keluarga.delete');
+Route::delete('keluarga/detail/public/delete/pasangan/{id}', [SilsilahController::class, 'delete_pasangan_anggota_keluarga'])->name('pasangan.anggota.keluarga.delete');
+
+Route::post('keluarga/compare', [SilsilahController::class, 'compare'])->name('keluarga.compare');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [AdminController::class, 'route'])->name('dashboard');

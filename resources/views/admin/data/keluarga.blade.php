@@ -106,7 +106,7 @@
                   <div class="modal-body">
                       <div class="row">
                           <div class="col mb-4">
-                              <label for="nama-trah" class="form-label">Nama Keluarga</label>
+                              <label for="nama-trah" class="form-label">Nama Keluarga<span style="color: red">*</span></label>
                               <input type="text" id="nama-trah" name="family_name" class="form-control" placeholder="Masukkan Nama Keluarga Anda" required>
                           </div>
                       </div>
@@ -116,16 +116,24 @@
                               <input type="text" id="deskripsi-trah" name="description" class="form-control" placeholder="Deskripsi Singkat Keluarga">
                           </div>
                           <div class="col mb-0">
-                              <label for="created-by" class="form-label">Pemilik</label>
+                              <label for="created-by" class="form-label">Pemilik<span style="color: red">*</span></label>
                               <input type="text" id="created-by" name="owner" class="form-control" value="{{ auth()->user()->name }}" required readonly>
                           </div>
                       </div>
-                      <div class="row g-x-4">
-                          <label class="form-label">Password Visibility</label>
-                          <div class="input-group mb-4">
-                              <input type="password" id="password" name="password" class="form-control" aria-label="Password input">
-                          </div>
+                      <div class="row g-4">
+                        <div class="col d-flex justify-content-start">
+                          <div class="form-check-reverse form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Keluarga Privat</label>
+                        </div>
                       </div>
+                    </div>
+                    <div class="row g-x-4 password-section" style="display: none;"> <!-- Tambahkan class dan sembunyikan awal -->
+                        <label class="form-label">Password<span style="color: red">*</span></label>
+                        <div class="input-group mb-4">
+                            <input type="password" id="passwordSection" name="password" class="form-control" aria-label="Password input">
+                        </div>
+                    </div>
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
@@ -318,9 +326,15 @@
   </div>
 
   <script>
-    document.getElementById('show-password').addEventListener('change', function() {
-      const passwordField = document.getElementById('password');
-      passwordField.type = this.checked ? 'text' : 'password';
-    });    
+    const checkbox = document.getElementById('flexSwitchCheckDefault');
+    const passwordSection = document.querySelector('.password-section'); // Ubah target ke div container
+
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            passwordSection.style.display = 'block';
+        } else {
+            passwordSection.style.display = 'none';
+        }
+    });
   </script>
 @endsection

@@ -13,18 +13,37 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/fe9f5ba15b.js" crossorigin="anonymous"></script>
+
+        <!-- SweetAlert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        <!-- Styles -->
+        @stack('styles')
+        @include('layouts/sections/styles')
     </head>
     <body class="font-sans text-gray-900 antialiased">
+        <!-- Main Content -->
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/" wire:navigate>
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+            {{-- @hasSection('logo')
+                @yield('logo')
+            @else
+                <div>
+                    <a href="/" wire:navigate>
+                        <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    </a>
+                </div>
+            @endif --}}
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
+                {{ $slot }} <!-- Ini yang harus ada untuk Livewire Volt -->
             </div>
         </div>
+
+        <!-- Scripts -->
+        @stack('scripts')
+        @include('layouts/sections/scripts')
     </body>
 </html>

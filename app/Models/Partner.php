@@ -16,6 +16,7 @@ class Partner extends Model
         'tanggal_lahir',
         'jenis_kelamin',
         'urutan_anak',
+        'status_kehidupan',
         'anggota_keluarga_id', // FK ke anggota_keluarga
         'photo', 
     ];

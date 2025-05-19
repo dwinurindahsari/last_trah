@@ -30,13 +30,113 @@ new #[Layout('layouts.guest')] class extends Component
 
         event(new Registered($user = User::create($validated)));
 
+        $user->assignrole('user');
+
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
 }; ?>
 
-<div>
+@section('styles')
+    <!-- Load custom auth page styles -->
+    @vite(['resources/assets/vendor/scss/pages/page-auth.scss'])
+@endsection
+
+<div class="auth-wrapper">
+    <div class="auth-inner">
+        <div class="auth-card">
+            <!-- Logo -->
+            <div class="auth-logo mb-4 text-center">
+                <a href="{{ url('/') }}" class="d-flex flex-column align-items-center text-decoration-none">
+                    <span class="logo-icon mb-2">@include('_partials.macros', ["width" => 40, "withbg" => 'var(--bs-primary)'])</span>
+                    <span class="logo-text fs-3 fw-bold text-dark">{{ config('variables.templateName') }}</span>
+                </a>
+            </div>
+
+            <form wire:submit.prevent="register" class="auth-form">
+                <!-- Name Input -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input wire:model="name" type="text" class="form-control" id="name" placeholder="Enter your name" autofocus>
+                    @error('name') <div class="text-danger small">{{ $message }}</div> @enderror
+                </div>
+
+                <!-- Email Input -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input wire:model="email" type="email" class="form-control" id="email" placeholder="Enter your email">
+                    @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
+                </div>
+
+                <!-- Password Input -->
+                <div class="mb-3 password-toggle">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input wire:model="password" type="password" id="password" class="form-control" placeholder="············">
+                        <span class="input-group-text toggle-password"><i class="bx bx-hide"></i></span>
+                    </div>
+                    @error('password') <div class="text-danger small">{{ $message }}</div> @enderror
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="mb-3 password-toggle">
+                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                    <div class="input-group">
+                        <input wire:model="password_confirmation" type="password" id="password_confirmation" class="form-control" placeholder="············">
+                        <span class="input-group-text toggle-password"><i class="bx bx-hide"></i></span>
+                    </div>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <div class="mb-4">
+                    <div class="form-check">
+                        <input wire:model="terms" class="form-check-input" type="checkbox" id="terms">
+                        <label class="form-check-label" for="terms">
+                            I agree to <a href="#">privacy policy & terms</a>
+                        </label>
+                    </div>
+                    @error('terms') <div class="text-danger small">You must accept the terms</div> @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-100">
+                    Sign up
+                </button>
+            </form>
+
+            <div class="auth-footer text-center mt-3">
+                <span>Already have an account?</span>
+                <a href="{{ route('login') }}" wire:navigate>Sign in instead</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section('scripts')
+    <!-- Password toggle functionality -->
+    <script>
+        document.addEventListener('livewire:init', () => {
+            // Toggle password visibility
+            document.querySelectorAll('.toggle-password').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const input = this.closest('.input-group').querySelector('input');
+                    const icon = this.querySelector('i');
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.replace('bx-hide', 'bx-show');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.replace('bx-show', 'bx-hide');
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
+
+{{-- <div>
     <form wire:submit="register">
         <!-- Name -->
         <div>
@@ -85,4 +185,4 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
     </form>
-</div>
+</div> --}}

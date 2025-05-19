@@ -71,6 +71,13 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <form wire:submit="resetPassword">
+        <!-- Logo -->
+            <div class="auth-logo mb-4 text-center">
+                <a href="{{ url('/') }}" class="d-flex flex-column align-items-center text-decoration-none">
+                    <span class="logo-icon mb-2">@include('_partials.macros', ["width" => 40, "withbg" => 'var(--bs-primary)'])</span>
+                    <span class="logo-text fs-3 fw-bold text-dark">{{ config('variables.templateName') }}</span>
+                </a>
+            </div>
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />

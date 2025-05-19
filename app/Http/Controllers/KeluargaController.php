@@ -76,18 +76,17 @@ class KeluargaController extends Controller
                 ->with('error', 'Gagal menghapus data: ' . $e->getMessage());
         }
     }
+    
     public function detail_public($id)
     {
-        // Ambil data trah beserta anggota keluarganya
         $trah = Trah::with(['anggotaKeluarga' => function($query) {
             $query->orderBy('urutan');
         }])->findOrFail($id);
 
-        // Ambil hanya anggota keluarga yang terkait dengan trah ini
         $anggota_keluarga = $trah->anggotaKeluarga;
         
         // Ambil partner yang terkait dengan anggota keluarga ini
-        $partner = Partner::whereIn('anggota_keluarga_id', $anggota_keluarga->pluck('id'))
+        $pasangan_keluarga = Partner::whereIn('anggota_keluarga_id', $anggota_keluarga->pluck('id'))
                         ->orderBy('nama')
                         ->get();
 
@@ -95,7 +94,7 @@ class KeluargaController extends Controller
         $rootMember = $anggota_keluarga->whereNull('parent_id');
         
         // Root partner (partner tanpa anggota_keluarga_id) - ini mungkin perlu penyesuaian
-        $rootPartner = $partner->whereNull('anggota_keluarga_id');
+        $rootPartner = $pasangan_keluarga->whereNull('anggota_keluarga_id');
 
         return view('detail.public_detail', [
             'trahs' => $trah, // Menggunakan nama variabel yang konsisten
@@ -104,9 +103,11 @@ class KeluargaController extends Controller
             'existingMembers' => $anggota_keluarga, // Sama dengan anggota_keluarga
             'rootMember' => $rootMember,
             'rootPartner' => $rootPartner,
-            'partner' => $partner
+            'pasangan_keluarga' => $pasangan_keluarga
         ]);
     }
+
+    
 
     public function detail_private($id, Request $request){
         $trah = Trah::with(['anggotaKeluarga' => function($query) {
