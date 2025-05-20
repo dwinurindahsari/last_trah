@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\KeluargaController;
+use App\Http\Controllers\LogicController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SilsilahController;
 use App\Http\Controllers\UserController;
@@ -80,7 +81,7 @@ Route::put('keluarga/detail/public/update/pasangan/{id}', [SilsilahController::c
 
 Route::delete('keluarga/detail/public/delete/pasangan/{id}', [SilsilahController::class, 'delete_pasangan_anggota_keluarga'])->name('pasangan.anggota.keluarga.delete');
 
-Route::post('keluarga/compare', [SilsilahController::class, 'compare'])->name('keluarga.compare');
+Route::post('keluarga/compare', [LogicController::class, 'compare'])->name('pasangan.anggota.keluarga.compare');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {

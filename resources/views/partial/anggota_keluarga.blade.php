@@ -3,7 +3,13 @@
         <div class="main-member">
             <a href="">
                 @if ($anggota->urutan)
-                    <small style="position: absolute">{{ $anggota->urutan }}</small>
+                    <small style="position: absolute; background-color:
+                    @if ($anggota->jenis_kelamin == 'Laki-Laki')
+                        blue;
+                    @else  
+                        pink;  
+                    @endif
+                    padding: 2px 5px; border-radius: 100px;">{{ $anggota->urutan }}</small>
                 @endif
 
                 {{-- Main Member Photo --}}
@@ -22,7 +28,7 @@
                     <span class="truncate-name">
                         {{ Str::of($anggota->nama)->before(' ') }}
                         @if (Str::contains($anggota->nama, ' '))
-                            <span class="tooltip-text">{{ $anggota->nama }}</span>
+                            <span class="tooltip-text" alt>{{ $anggota->nama }}</span>
                         @endif
                     </span>
                 @endif

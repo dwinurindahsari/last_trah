@@ -555,7 +555,8 @@
                             <input type="hidden" name="tree_id" value="{{ $trahs->id }}">
                             <div class="row">
                                 <div class="col mb-4">
-                                    <label for="nama_pasangan_anggota_keluarga" class="form-label">Nama <span style="color: red">*</span></label>
+                                    <label for="nama_pasangan_anggota_keluarga" class="form-label">Nama <span
+                                            style="color: red">*</span></label>
                                     <input type="text" id="nama_pasangan_anggota_keluarga"
                                         name="nama_pasangan_anggota_keluarga" class="form-control"
                                         placeholder="Nama Lengkap" required>
@@ -563,7 +564,8 @@
                             </div>
                             <div class="row g-4">
                                 <div class="col mb-4">
-                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span style="color: red">*</span></label>
+                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span
+                                            style="color: red">*</span></label>
                                     <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
                                         <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki">Laki-laki</option>
@@ -577,7 +579,8 @@
                             </div>
                             <div class="row g-4">
                                 <div class="col mb-4">
-                                    <label for="partner_id" class="form-label">Pasangan Dari <span style="color: red">*</span></label>
+                                    <label for="partner_id" class="form-label">Pasangan Dari <span
+                                            style="color: red">*</span></label>
                                     <select id="partner_id" name="partner_id" class="form-select">
                                         <option value="">Pilih Anggota Keluarga</option>
                                         @foreach ($existingMembers as $member)
@@ -637,107 +640,139 @@
         </div>
 
         @foreach ($anggota_keluarga as $anggota)
-    @foreach ($anggota->partners as $partner)
-        <div class="modal fade" id="editPartnerMemberModal{{ $partner->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel3">Edit Pasangan Keluarga</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('pasangan.anggota.keluarga.update', $partner->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <input type="hidden" name="tree_id" value="{{ $trah->id }}">
-                            <div class="row">
-                                <div class="col mb-4">
-                                    <label for="nama_pasangan_edit" class="form-label">Nama <span style="color: red">*</span></label>
-                                    <input type="text" id="nama_pasangan_edit" name="nama_pasangan_edit" class="form-control" placeholder="Nama Lengkap" value="{{ $partner->nama }}" required>
-                                </div>
+            @foreach ($anggota->partners as $partner)
+                <div class="modal fade" id="editPartnerMemberModal{{ $partner->id }}" tabindex="-1"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel3">Edit Pasangan Keluarga</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="jenis_kelamin_edit" class="form-label">Jenis Kelamin <span style="color: red">*</span></label>
-                                    <select id="jenis_kelamin_edit" name="jenis_kelamin_edit" class="form-select" required>
-                                        <option value="Laki-laki" {{ $partner->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                        <option value="Perempuan" {{ $partner->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                                    </select>
-                                </div>
-                                <div class="col mb-0">
-                                    <label for="tanggal_lahir_edit" class="form-label">Tanggal Lahir</label>
-                                    <input type="date" id="tanggal_lahir_edit" name="tanggal_lahir_edit" class="form-control" value="{{ $partner->tanggal_lahir ? \Carbon\Carbon::parse($partner->tanggal_lahir)->format('Y-m-d') : '' }}">
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="partner_id_edit" class="form-label">Pasangan Dari <span style="color: red">*</span></label>
-                                    <select id="partner_id_edit" name="partner_id_edit" class="form-select" required>
-                                        @foreach ($existingMembers as $member)
-                                            <option value="{{ $member->id }}" {{ $partner->anggota_keluarga_id == $member->id ? 'selected' : '' }}>
-                                                {{ $member->nama }}
-                                                @if ($member->jenis_kelamin === 'Laki-Laki')
-                                                    (Tn)
-                                                @else
-                                                    (Ny)
-                                                @endif
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col mb-0">
-                                    <label for="urutan_edit" class="form-label">Urutan</label>
-                                    <select id="urutan_edit" name="urutan_edit" class="form-select" required>
-                                        @for ($i = 1; $i <= 14; $i++)
-                                            <option value="{{ $i }}" {{ $partner->urutan == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="status_kehidupan_edit" class="form-label">Status Kehidupan</label>
-                                    <select id="status_kehidupan_edit" name="status_kehidupan_edit" class="form-select" required>
-                                        <option value="Hidup" {{ $partner->status_kehidupan == 'Hidup' ? 'selected' : '' }}>Hidup</option>
-                                        <option value="Wafat" {{ $partner->status_kehidupan == 'Wafat' ? 'selected' : '' }}>Wafat</option>
-                                    </select>
-                                </div>
-                                <div class="col mb-0">
-                                    <label for="tanggal_kematian_edit" class="form-label">Tanggal Kematian</label>
-                                    <input type="date" id="tanggal_kematian_edit" name="tanggal_kematian_edit" class="form-control" value="{{ $partner->tanggal_kematian ? \Carbon\Carbon::parse($partner->tanggal_kematian)->format('Y-m-d') : '' }}">
-                                </div>
-                            </div>
-                            {{-- <div class="row g-4">
+                            <form action="{{ route('pasangan.anggota.keluarga.update', $partner->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-body">
+                                    <input type="hidden" name="tree_id" value="{{ $trah->id }}">
+                                    <div class="row">
+                                        <div class="col mb-4">
+                                            <label for="nama_pasangan_edit" class="form-label">Nama <span
+                                                    style="color: red">*</span></label>
+                                            <input type="text" id="nama_pasangan_edit" name="nama_pasangan_edit"
+                                                class="form-control" placeholder="Nama Lengkap"
+                                                value="{{ $partner->nama }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4">
+                                        <div class="col mb-4">
+                                            <label for="jenis_kelamin_edit" class="form-label">Jenis Kelamin <span
+                                                    style="color: red">*</span></label>
+                                            <select id="jenis_kelamin_edit" name="jenis_kelamin_edit" class="form-select"
+                                                required>
+                                                <option value="Laki-laki"
+                                                    {{ $partner->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>
+                                                    Laki-laki</option>
+                                                <option value="Perempuan"
+                                                    {{ $partner->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
+                                                    Perempuan</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-0">
+                                            <label for="tanggal_lahir_edit" class="form-label">Tanggal Lahir</label>
+                                            <input type="date" id="tanggal_lahir_edit" name="tanggal_lahir_edit"
+                                                class="form-control"
+                                                value="{{ $partner->tanggal_lahir ? \Carbon\Carbon::parse($partner->tanggal_lahir)->format('Y-m-d') : '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="row g-4">
+                                        <div class="col mb-4">
+                                            <label for="partner_id_edit" class="form-label">Pasangan Dari <span
+                                                    style="color: red">*</span></label>
+                                            <select id="partner_id_edit" name="partner_id_edit" class="form-select"
+                                                required>
+                                                @foreach ($existingMembers as $member)
+                                                    <option value="{{ $member->id }}"
+                                                        {{ $partner->anggota_keluarga_id == $member->id ? 'selected' : '' }}>
+                                                        {{ $member->nama }}
+                                                        @if ($member->jenis_kelamin === 'Laki-Laki')
+                                                            (Tn)
+                                                        @else
+                                                            (Ny)
+                                                        @endif
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col mb-0">
+                                            <label for="urutan_edit" class="form-label">Urutan</label>
+                                            <select id="urutan_edit" name="urutan_edit" class="form-select" required>
+                                                @for ($i = 1; $i <= 14; $i++)
+                                                    <option value="{{ $i }}"
+                                                        {{ $partner->urutan == $i ? 'selected' : '' }}>{{ $i }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4">
+                                        <div class="col mb-4">
+                                            <label for="status_kehidupan_edit" class="form-label">Status Kehidupan</label>
+                                            <select id="status_kehidupan_edit" name="status_kehidupan_edit"
+                                                class="form-select" required>
+                                                <option value="Hidup"
+                                                    {{ $partner->status_kehidupan == 'Hidup' ? 'selected' : '' }}>Hidup
+                                                </option>
+                                                <option value="Wafat"
+                                                    {{ $partner->status_kehidupan == 'Wafat' ? 'selected' : '' }}>Wafat
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-0">
+                                            <label for="tanggal_kematian_edit" class="form-label">Tanggal Kematian</label>
+                                            <input type="date" id="tanggal_kematian_edit" name="tanggal_kematian_edit"
+                                                class="form-control"
+                                                value="{{ $partner->tanggal_kematian ? \Carbon\Carbon::parse($partner->tanggal_kematian)->format('Y-m-d') : '' }}">
+                                        </div>
+                                    </div>
+                                    {{-- <div class="row g-4">
                                 <div class="col mb-4">
                                     <label for="alamat_edit" class="form-label">Alamat</label>
                                     <textarea class="form-control" id="alamat_edit" name="alamat_edit" required>{{ $partner->alamat }}</textarea>
                                 </div>
                             </div> --}}
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <div class="mb-3">
-                                        <label for="foto_pasangan_edit" class="form-label">Upload Foto</label>
-                                        @if($partner->photo)
-                                            <img src="{{ asset('storage/'.$partner->photo) }}" class="img-thumbnail image-preview mb-3" style="max-width: 100px; max-height: 100px;">
-                                        @else
-                                            <img src="" class="img-thumbnail image-preview mb-3" style="display: none; max-width: 100px; max-height: 100px;">
-                                        @endif
-                                        <input class="form-control" type="file" id="foto_pasangan_edit" name="foto_pasangan_edit" accept="image/*" onchange="previewImage(this)">
+                                    <div class="row g-4">
+                                        <div class="col mb-4">
+                                            <div class="mb-3">
+                                                <label for="foto_pasangan_edit" class="form-label">Upload Foto</label>
+                                                @if ($partner->photo)
+                                                    <img src="{{ asset('storage/' . $partner->photo) }}"
+                                                        class="img-thumbnail image-preview mb-3"
+                                                        style="max-width: 100px; max-height: 100px;">
+                                                @else
+                                                    <img src="" class="img-thumbnail image-preview mb-3"
+                                                        style="display: none; max-width: 100px; max-height: 100px;">
+                                                @endif
+                                                <input class="form-control" type="file" id="foto_pasangan_edit"
+                                                    name="foto_pasangan_edit" accept="image/*"
+                                                    onchange="previewImage(this)">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-label-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-    @endforeach
-@endforeach
-        
+            @endforeach
+        @endforeach
+
     </div>
 
     <div class="card mb-3">
@@ -774,9 +809,9 @@
                 </button>
             </li>
             <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                    data-bs-target="#navs-pills-justified-messages" aria-controls="navs-pills-justified-messages"
-                    aria-selected="false">
+                <button type="button" class="nav-link {{ request()->has('compare') ? 'active' : '' }}" role="tab"
+                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-messages"
+                    aria-controls="navs-pills-justified-messages" aria-selected="false">
                     <span class="d-none d-sm-inline-flex align-items-center"><i
                             class="fa-solid fa-link me-2"></i>Hubungan</span>
                     <i class="fa-solid fa-link icon-sm d-sm-none"></i>
@@ -1038,48 +1073,49 @@
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($anggota_keluarga as $anggota)
-                                                            @foreach ( $anggota->partners as $partner )    
-                                                            <tr class="odd">
-                                                                <td class="text-center col-no" style="overflow: hidden;">
-                                                                    {{ $loop->iteration }}
-                                                                </td>
-                                                                <td class="" style="overflow: hidden">
-                                                                    <div class="ellipsis text-center">
-                                                                        {{ $partner->nama }}
-                                                                    </div>
-                                                                </td>
-                                                                <td class="" style="overflow: hidden">
-                                                                    <div class="ellipsis text-center">
-                                                                        {{ $partner->jenis_kelamin }}
-                                                                    </div>
-                                                                </td>
-                                                                <td class="" style="overflow: hidden">
-                                                                    <div class="ellipsis text-center">
-                                                                        {{ \Carbon\Carbon::parse($partner->tanggal_lahir)->translatedFormat('d-F-Y') }}
-                                                                    </div>
-                                                                </td>
-                                                                <td class="" style="overflow: hidden">
-                                                                    <div class="ellipsis text-center">
-                                                                        <span
-                                                                            class="badge @if ($partner->status_kehidupan == 'Hidup') text-bg-primary @else text-bg-danger @endif">
-                                                                            {{ $partner->status_kehidupan }}
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="justify-content-center text-center"
-                                                                    style="overflow: hidden">
-                                                                    <a class="badge bg-label-warning m-1 py-1"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#editPartnerMemberModal{{ $partner->id }}">
-                                                                        <i class="fa-solid fa-pencil"></i>
-                                                                    </a>
-                                                                    <a class="badge bg-label-danger m-1 py-1"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#deletePartnerMemberModal{{ $partner->id }}">
-                                                                        <i class="fa-solid fa-xmark"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
+                                                            @foreach ($anggota->partners as $partner)
+                                                                <tr class="odd">
+                                                                    <td class="text-center col-no"
+                                                                        style="overflow: hidden;">
+                                                                        {{ $loop->iteration }}
+                                                                    </td>
+                                                                    <td class="" style="overflow: hidden">
+                                                                        <div class="ellipsis text-center">
+                                                                            {{ $partner->nama }}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="" style="overflow: hidden">
+                                                                        <div class="ellipsis text-center">
+                                                                            {{ $partner->jenis_kelamin }}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="" style="overflow: hidden">
+                                                                        <div class="ellipsis text-center">
+                                                                            {{ \Carbon\Carbon::parse($partner->tanggal_lahir)->translatedFormat('d-F-Y') }}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="" style="overflow: hidden">
+                                                                        <div class="ellipsis text-center">
+                                                                            <span
+                                                                                class="badge @if ($partner->status_kehidupan == 'Hidup') text-bg-primary @else text-bg-danger @endif">
+                                                                                {{ $partner->status_kehidupan }}
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="justify-content-center text-center"
+                                                                        style="overflow: hidden">
+                                                                        <a class="badge bg-label-warning m-1 py-1"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#editPartnerMemberModal{{ $partner->id }}">
+                                                                            <i class="fa-solid fa-pencil"></i>
+                                                                        </a>
+                                                                        <a class="badge bg-label-danger m-1 py-1"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#deletePartnerMemberModal{{ $partner->id }}">
+                                                                            <i class="fa-solid fa-xmark"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
                                                             @endforeach
                                                         @endforeach
                                                     </tbody>
@@ -1136,10 +1172,223 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
-                page 3
+                {{-- ini page 3 --}}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Perbandingan Hubungan Keluarga</h5>
+
+                        <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
+                            @csrf
+                            <input type="hidden" name="tree_id" value="{{ $tree_id }}">
+                            <input type="hidden" name="compare" value="true">
+
+                            <div class="container px-4">
+                                <div class="row gx-5">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="person1" class="form-label text-center w-100">Pilih Anggota
+                                                Keluarga 1:</label>
+                                            <div class="d-flex justify-content-center">
+                                                <select name="name1" id="person1" class="form-control"
+                                                    style="width: 450px;" required>
+                                                    <option value="">-- Pilih --</option>
+                                                    @foreach ($members as $member)
+                                                        <option value="{{ $member->name }}"
+                                                            {{ old('name1', $person1->name ?? '') == $member->name ? 'selected' : '' }}>
+                                                            {{ $member->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col d-flex justify-content-center align-items-center">
+                                        <button type="submit" class="btn btn-primary rounded-circle"
+                                            style="width: 50px; height: 50px; font-size: 24px;">&#x1F50E;&#xFE0E;</button>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="person2" class="form-label text-center w-100">Pilih Anggota
+                                                Keluarga 2:</label>
+                                            <select name="name2" id="person2" class="form-control"
+                                                style="width: 450px;" required>
+                                                <option value="">-- Pilih --</option>
+                                                @foreach ($members as $member)
+                                                    <option value="{{ $member->name }}"
+                                                        {{ old('name2', $person2->name ?? '') == $member->name ? 'selected' : '' }}>
+                                                        {{ $member->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- tabel hasil hubungan -->
+                        @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
+                            <div class="row" id="relationship-details">
+                                <h3 class="text-center text-lg font-semibold mb-1 mt-1">Hasil Perbandingan</h3>
+
+                                <!-- Kolom hubungan anggota 1 -->
+                                <div class="col-md-6">
+                                    <div class="bg-white shadow-md p-5 rounded-md mt-3">
+                                        @if (isset($person1->photo) && $person1->photo)
+                                            <div class="flex justify-center mb-3">
+                                                <img src="{{ asset('storage/' . $person1->photo) }}"
+                                                    alt="{{ $person1->name }}"
+                                                    class="w-48 h-48 rounded-full object-cover border-4 border-green-700" />
+                                            </div>
+                                        @endif
+                                        @if (is_array($relationshipDetails))
+                                            <div
+                                                class="bg-[#FEF3C7] flex justify-center text-gray-800 p-3 rounded-md mb-3">
+                                                {{ $relationshipDetails['relation'] }}
+                                            </div>
+                                            @if (!empty($relationshipDetails['detailedPath']))
+                                                <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
+                                                    <strong class="flex justify-center mb-3">Jalur Hubungan
+                                                        Keluarga:</strong>
+                                                    <ul class="list-group mt-2">
+                                                        @foreach ($relationshipDetails['detailedPath'] as $detail)
+                                                            <li class="list-group-item">{{ $detail }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @elseif(isset($path) && count($path))
+                                                <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
+                                                    <strong>Jalur (BFS fallback):</strong>
+                                                    <p>
+                                                        {{ implode(' → ', array_map(fn($m) => $m->name, $path)) }}
+                                                    </p>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="alert alert-warning">{{ $relationshipDetails }}</div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Kolom hubungan keluarga 2 -->
+                                <div class="col-md-6 mt-4 mt-md-0">
+                                    <div class="bg-white shadow-md p-5 rounded-md mt-3">
+                                        @if (isset($person2->photo) && $person2->photo)
+                                            <div class="flex justify-center mb-3">
+                                                <img src="{{ asset('storage/' . $person2->photo) }}"
+                                                    alt="{{ $person2->name }}"
+                                                    class="w-48 h-48 rounded-full object-cover border-4 border-green-700" />
+                                            </div>
+                                        @endif
+                                        @if (is_array($relationshipDetailsReversed))
+                                            <div
+                                                class="bg-[#FEF3C7] flex justify-center text-gray-800 p-3 rounded-md mb-3">
+                                                {{ $relationshipDetailsReversed['relation'] }}
+                                            </div>
+                                            @if (!empty($relationshipDetailsReversed['detailedPath']))
+                                                <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
+                                                    <strong class="flex justify-center mb-3">Jalur Hubungan
+                                                        Keluarga:</strong>
+                                                    <ul class="list-group mt-2">
+                                                        @foreach ($relationshipDetailsReversed['detailedPath'] as $detail)
+                                                            <li class="list-group-item">{{ $detail }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @elseif(isset($path) && count($path))
+                                                <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
+                                                    <strong>Jalur (BFS fallback):</strong>
+                                                    <p>
+                                                        {{ implode(' → ', array_map(fn($m) => $m->name, $path)) }}
+                                                    </p>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="alert alert-warning">{{ $relationshipDetailsReversed }}</div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
+                                onclick="resetForm();">Reset</button>
+                        </div>
+
+                        {{-- @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
+                            <script>
+                                window.onload = () => {
+                                    document.getElementById('relationship-details')?.scrollIntoView({
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            </script>
+                        @endif --}}
+
+                        <script>
+                            function resetForm() {
+                                document.querySelector("form").reset();
+                                document.querySelector("#person1").selectedIndex = 0;
+                                document.querySelector("#person2").selectedIndex = 0;
+                                document.getElementById("relationship-details").innerHTML = ''; // Clear results
+                            }
+                        </script>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    {{-- <script>
+$(document).ready(function() {
+    $('#relationshipComparisonForm').submit(function(e) {
+        e.preventDefault();
+        
+        // Tampilkan loading
+        $('#relationInfo').html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i> Memproses...</div>');
+        $('#relationshipResult').show();
+
+        $.ajax({
+            url: "{{ route('pasangan.anggota.keluarga.compare') }}",
+            method: "POST",
+            data: $(this).serialize(),
+            success: function(response) {
+                // Tampilkan hasil hubungan
+                let html = `
+                    <div class="relation-result">
+                        <p><strong>${response.person1.name}</strong> → <strong>${response.person2.name}</strong>: 
+                        ${response.relationship1to2.relation}</p>
+                        <p><strong>${response.person2.name}</strong> → <strong>${response.person1.name}</strong>: 
+                        ${response.relationship2to1.relation}</p>
+                    </div>
+                `;
+                $('#relationInfo').html(html);
+
+                // Tampilkan detail jalur hubungan jika ada
+                if (response.relationship1to2.detailedPath.length > 0) {
+                    let detailsHtml = '<h6>Detail Hubungan:</h6><ul class="list-group">';
+                    response.relationship1to2.detailedPath.forEach(step => {
+                        detailsHtml += `<li class="list-group-item">${step}</li>`;
+                    });
+                    detailsHtml += '</ul>';
+                    $('#relationDetails').html(detailsHtml);
+                }
+            },
+            error: function(xhr) {
+                let errorMessage = 'Terjadi kesalahan saat memproses';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                $('#relationInfo').html(`<div class="alert alert-danger">${errorMessage}</div>`);
+                $('#relationDetails').empty();
+            }
+        });
+    });
+});
+</script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

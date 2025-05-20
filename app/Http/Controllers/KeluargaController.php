@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class KeluargaController extends Controller
 {
-
     public function store(Request $request){
         $validated = $request->validate([
         'family_name' => 'required|string|max:255',
@@ -76,34 +75,81 @@ class KeluargaController extends Controller
                 ->with('error', 'Gagal menghapus data: ' . $e->getMessage());
         }
     }
+
+    public function detail(Request $request, $id)
+    {
+        $trah = Trah::with('anggotaKeluarga')->findOrFail($id);
+        $anggota_keluarga = $trah->anggotaKeluarga;
+        
+        // Panggil LogicController
+        $logic = new \App\Http\Controllers\LogicController();
+        $comparison = $logic->compare($request, $id);
+        
+        return view('detail.public_detail', [
+            'trah' => $trah,
+            'anggota_keluarga' => $anggota_keluarga,
+            ...$comparison // Spread operator untuk unpack array
+        ]);
+    }
     
-    public function detail_public($id)
+    public function detail_public(Request $request, $id)
     {
         $trah = Trah::with(['anggotaKeluarga' => function($query) {
             $query->orderBy('urutan');
         }])->findOrFail($id);
-
+        $tree_id = $id;
         $anggota_keluarga = $trah->anggotaKeluarga;
-        
-        // Ambil partner yang terkait dengan anggota keluarga ini
         $pasangan_keluarga = Partner::whereIn('anggota_keluarga_id', $anggota_keluarga->pluck('id'))
                         ->orderBy('nama')
                         ->get();
-
         // Root member (anggota tanpa parent_id) dari trah ini saja
         $rootMember = $anggota_keluarga->whereNull('parent_id');
         
-        // Root partner (partner tanpa anggota_keluarga_id) - ini mungkin perlu penyesuaian
         $rootPartner = $pasangan_keluarga->whereNull('anggota_keluarga_id');
 
+        $person1 = null;
+        $person2 = null;
+        $relationshipDetails = null;
+        $relationshipDetailsReversed = null;
+
+        if ($request->has('compare') && $request->filled(['name1', 'name2'])) {
+            $person1 = Anggota_Keluarga::where('nama', $request->name1)->where('tree_id', $tree_id)->first();
+            $person2 = Anggota_Keluarga::where('nama', $request->name2)->where('tree_id', $tree_id)->first();
+    
+            if ($person1 && $person2) {
+                $dfs = new \App\Http\Controllers\LogicController;
+
+
+                //arah person1 -> person2
+                $visited = [];
+                $path = [];
+                $found = $dfs->dfs($person1, $person2->id, $visited, $path);
+                $relationshipDetails = $found
+                    ? $dfs->relationshipPath($path, $person1->name, $person2->name)
+                    : 'Tidak ada hubungan yang ditemukan.';
+
+                
+                //reversed
+                $visitedRev = [];
+                $pathRev = [];
+                $foundRev = $dfs->dfs($person2, $person1->id, $visitedRev, $pathRev);
+                $relationshipDetailsReversed = $foundRev
+                    ? $dfs->relationshipPath($pathRev, $person2->name, $person1->name)
+                    : 'Tidak ada hubungan yang ditemukan.';
+            }
+        }
+
         return view('detail.public_detail', [
-            'trahs' => $trah, // Menggunakan nama variabel yang konsisten
-            'trah' => $trah, // Duplikat jika diperlukan untuk kompatibilitas
+            'trahs' => $trah,
+            'trah' => $trah,
             'anggota_keluarga' => $anggota_keluarga,
-            'existingMembers' => $anggota_keluarga, // Sama dengan anggota_keluarga
+            'existingMembers' => $anggota_keluarga,
             'rootMember' => $rootMember,
             'rootPartner' => $rootPartner,
-            'pasangan_keluarga' => $pasangan_keluarga
+            'pasangan_keluarga' => $pasangan_keluarga,
+            'relationshipDetails' => $relationshipDetails,
+            'relationshipDetailsReversed' => $relationshipDetailsReversed,
+            'tree_id' => $tree_id // Pastikan tree_id dikirim dengan nama key yang benar
         ]);
     }
 
