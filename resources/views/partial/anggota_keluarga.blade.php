@@ -3,13 +3,20 @@
         <div class="main-member">
             <a href="">
                 @if ($anggota->urutan)
-                    <small style="position: absolute; background-color:
-                    @if ($anggota->jenis_kelamin == 'Laki-Laki')
-                        blue;
-                    @else  
-                        pink;  
-                    @endif
-                    padding: 2px 5px; border-radius: 100px;">{{ $anggota->urutan }}</small>
+                    <small style="
+    position: absolute; 
+    background-color: {{ $anggota->jenis_kelamin == 'Laki-Laki' ? '#3b82f6' : '#ec4899' }};
+    color: white;
+    font-weight: bold;
+    padding: 3px 8px; 
+    border-radius: 9999px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 0.75rem;
+    line-height: 1;
+    min-width: 24px;
+    text-align: center;
+    z-index: 100;
+">{{ $anggota->urutan }}</small>
                 @endif
 
                 {{-- Main Member Photo --}}

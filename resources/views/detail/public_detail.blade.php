@@ -855,8 +855,8 @@
                                                             Menampilkan
                                                             <select id="entriesPerPage" class="form-select form-select-sm"
                                                                 style="width: 80px; display: inline-block;">
-                                                                <option value="5">5</option>
-                                                                <option value="10" selected>10</option>
+                                                                <option value="5" selected>5</option>
+                                                                <option value="10">10</option>
                                                                 <option value="25">25</option>
                                                                 <option value="50">50</option>
                                                                 <option value="100">100</option>
@@ -935,7 +935,7 @@
                                                                 </td>
                                                                 <td class="" style="overflow: hidden">
                                                                     <div class="ellipsis text-center">
-                                                                        {{ \Carbon\Carbon::parse($anggota->tanggal_lahir)->translatedFormat('d-F-Y') }}
+                                                                        {{ $anggota->tanggal_lahir ? \Carbon\Carbon::parse($anggota->tanggal_lahir)->translatedFormat('d-F-Y') : 'belum diketahui' }}
                                                                     </div>
                                                                 </td>
                                                                 <td class="" style="overflow: hidden">
@@ -1177,7 +1177,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Perbandingan Hubungan Keluarga</h5>
 
-                        <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
+                        {{-- <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
                             @csrf
                             <input type="hidden" name="tree_id" value="{{ $tree_id }}">
                             <input type="hidden" name="compare" value="true">
@@ -1316,7 +1316,7 @@
                         <div class="d-grid gap-2 mt-4">
                             <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
                                 onclick="resetForm();">Reset</button>
-                        </div>
+                        </div> --}}
 
                         {{-- @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
                             <script>
