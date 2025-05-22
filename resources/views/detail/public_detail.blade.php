@@ -1177,7 +1177,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Perbandingan Hubungan Keluarga</h5>
 
-                        {{-- <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
+                         <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
                             @csrf
                             <input type="hidden" name="tree_id" value="{{ $tree_id }}">
                             <input type="hidden" name="compare" value="true">
@@ -1342,7 +1342,7 @@
         </div>
     </div>
 
-    {{-- <script>
+     <script>
 $(document).ready(function() {
     $('#relationshipComparisonForm').submit(function(e) {
         e.preventDefault();
@@ -1388,7 +1388,7 @@ $(document).ready(function() {
         });
     });
 });
-</script> --}}
+</script> 
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
