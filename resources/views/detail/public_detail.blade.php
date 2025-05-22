@@ -1171,6 +1171,7 @@
                     </div>
                 </div>
             </div>
+            <!-- BAGIAN HUBUNGAN KELUARGA -->
             <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
                 {{-- ini page 3 --}}
                 <div class="card mb-4">
@@ -1192,10 +1193,10 @@
                                                 <select name="name1" id="person1" class="form-control"
                                                     style="width: 450px;" required>
                                                     <option value="">-- Pilih --</option>
-                                                    @foreach ($members as $member)
-                                                        <option value="{{ $member->name }}"
-                                                            {{ old('name1', $person1->name ?? '') == $member->name ? 'selected' : '' }}>
-                                                            {{ $member->name }}
+                                                    @foreach ($anggota_keluarga as $trah)
+                                                        <option value="{{ $trah->name }}"
+                                                            {{ old('name1', $person1->name ?? '') == $trah->name ? 'selected' : '' }}>
+                                                            {{ $trah->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -1215,10 +1216,10 @@
                                             <select name="name2" id="person2" class="form-control"
                                                 style="width: 450px;" required>
                                                 <option value="">-- Pilih --</option>
-                                                @foreach ($members as $member)
-                                                    <option value="{{ $member->name }}"
-                                                        {{ old('name2', $person2->name ?? '') == $member->name ? 'selected' : '' }}>
-                                                        {{ $member->name }}
+                                                @foreach ($anggota_keluarga as $trah)
+                                                    <option value="{{ $trah->name }}"
+                                                        {{ old('name2', $person2->name ?? '') == $trah->name ? 'selected' : '' }}>
+                                                        {{ $trah->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -1316,9 +1317,9 @@
                         <div class="d-grid gap-2 mt-4">
                             <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
                                 onclick="resetForm();">Reset</button>
-                        </div> --}}
+                        </div> 
 
-                        {{-- @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
+                         @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
                             <script>
                                 window.onload = () => {
                                     document.getElementById('relationship-details')?.scrollIntoView({
@@ -1326,7 +1327,7 @@
                                     });
                                 }
                             </script>
-                        @endif --}}
+                        @endif 
 
                         <script>
                             function resetForm() {
