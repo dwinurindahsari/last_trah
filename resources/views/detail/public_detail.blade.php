@@ -1176,7 +1176,7 @@
                 {{-- ini page 3 --}}
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Perbandingan Hubungan Keluarga</h5>
+                        <h5 class="card-title text-center w-100" >Perbandingan Hubungan Keluarga</h5>
 
                          <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
                             @csrf
@@ -1190,9 +1190,8 @@
                                             <label for="person1" class="form-label text-center w-100">Pilih Anggota
                                                 Keluarga 1:</label>
                                             <div class="d-flex justify-content-center">
-                                                <select name="name1" id="person1" class="form-control"
-                                                    style="width: 450px;" required>
-                                                    <option value="">-- Pilih --</option>
+                                                <select name="name1" id="person1" class="form-control" style="width: 450px;" required>
+                                                    <option value="" style="color: gray;" class="form-label text-center w-100">-- Pilih --</option>
                                                     @foreach ($anggota_keluarga as $trah)
                                                         <option value="{{ $trah->name }}"
                                                             {{ old('name1', $person1->name ?? '') == $trah->name ? 'selected' : '' }}>
@@ -1206,16 +1205,15 @@
 
                                     <div class="col d-flex justify-content-center align-items-center">
                                         <button type="submit" class="btn btn-primary rounded-circle"
-                                            style="width: 50px; height: 50px; font-size: 24px;">&#x1F50E;&#xFE0E;</button>
+                                            style="width: 50px; height: 50px; font-size: 24px;">VS</button>
                                     </div>
 
                                     <div class="col">
                                         <div class="mb-3">
                                             <label for="person2" class="form-label text-center w-100">Pilih Anggota
                                                 Keluarga 2:</label>
-                                            <select name="name2" id="person2" class="form-control"
-                                                style="width: 450px;" required>
-                                                <option value="">-- Pilih --</option>
+                                            <select name="name2" id="person2" class="form-control" style="width: 450px;" required>
+                                                <option value="" style="color: gray;" class="form-label text-center w-100">-- Pilih --</option>
                                                 @foreach ($anggota_keluarga as $trah)
                                                     <option value="{{ $trah->name }}"
                                                         {{ old('name2', $person2->name ?? '') == $trah->name ? 'selected' : '' }}>
@@ -1315,8 +1313,7 @@
                         @endif
 
                         <div class="d-grid gap-2 mt-4">
-                            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
-                                onclick="resetForm();">Reset</button>
+                            <button type="button" class="btn btn-danger" onclick="resetForm();">Reset</button>
                         </div> 
 
                          @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
