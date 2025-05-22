@@ -1187,15 +1187,14 @@
                                 <div class="row gx-5">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label for="person1" class="form-label text-center w-100">Pilih Anggota
-                                                Keluarga 1:</label>
+                                            <label for="person1" class="form-label text-center w-100">Pilih Anggota Keluarga 1:</label>
                                             <div class="d-flex justify-content-center">
                                                 <select name="name1" id="person1" class="form-control" style="width: 450px;" required>
-                                                    <option value="" style="color: gray;" class="form-label text-center w-100">-- Pilih --</option>
+                                                    <option value="" style="color: gray;">-- Pilih --</option>
                                                     @foreach ($anggota_keluarga as $trah)
-                                                        <option value="{{ $trah->name }}"
-                                                            {{ old('name1', $person1->name ?? '') == $trah->name ? 'selected' : '' }}>
-                                                            {{ $trah->name }}
+                                                        <option value="{{ $trah->nama }}" style="color: black;"
+                                                            {{ old('name1', $person1->nama ?? '') == $trah->nama ? 'selected' : '' }}>
+                                                            {{ $trah->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -1204,20 +1203,21 @@
                                     </div>
 
                                     <div class="col d-flex justify-content-center align-items-center">
-                                        <button type="submit" class="btn btn-primary rounded-circle"
+                                        <button type="button" class="btn btn-primary rounded-circle"
                                             style="width: 50px; height: 50px; font-size: 24px;">VS</button>
                                     </div>
+                                    
 
                                     <div class="col">
                                         <div class="mb-3">
                                             <label for="person2" class="form-label text-center w-100">Pilih Anggota
                                                 Keluarga 2:</label>
                                             <select name="name2" id="person2" class="form-control" style="width: 450px;" required>
-                                                <option value="" style="color: gray;" class="form-label text-center w-100">-- Pilih --</option>
+                                                <option value="" style="color: gray;">-- Pilih --</option>
                                                 @foreach ($anggota_keluarga as $trah)
-                                                    <option value="{{ $trah->name }}"
-                                                        {{ old('name2', $person2->name ?? '') == $trah->name ? 'selected' : '' }}>
-                                                        {{ $trah->name }}
+                                                    <option value="{{ $trah->nama }}"
+                                                        {{ old('name2', $person2->nama ?? '') == $trah->nama ? 'selected' : '' }}>
+                                                        {{ $trah->nama }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -1225,7 +1225,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col d-flex justify-content-center align-items-center">
+                                <button type="submit" class="btn btn-primary rounded-circle"
+                                    style="width: 30px; height: 30px; font-size: 18px;">-</button>
+                            </div>
                         </form>
+                        
 
                         <!-- tabel hasil hubungan -->
                         @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
