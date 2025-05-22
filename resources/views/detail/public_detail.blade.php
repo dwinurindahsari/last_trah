@@ -789,9 +789,9 @@
     <div class="nav-align-top">
         <ul class="nav nav-pills mb-4 nav-fill bg-white p-2" role="tablist">
             <li class="nav-item mb-1 mb-sm-0">
-                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                    data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
-                    aria-selected="true">
+                <button type="button" class="nav-link {{ !request()->has('compare') ? 'active' : '' }}" role="tab"
+                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
+                    aria-selected="{{ !request()->has('compare') ? 'true' : 'false' }}">
                     <span class="d-none d-sm-inline-flex align-items-center">
                         <i class="fa-solid fa-person me-2"></i>Data Keluarga
                     </span>
@@ -810,8 +810,8 @@
             </li>
             <li class="nav-item">
                 <button type="button" class="nav-link {{ request()->has('compare') ? 'active' : '' }}" role="tab"
-                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-messages"
-                    aria-controls="navs-pills-justified-messages" aria-selected="false">
+                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-messages" aria-controls="navs-pills-justified-messages"
+                    aria-selected="{{ request()->has('compare') ? 'true' : 'false' }}">
                     <span class="d-none d-sm-inline-flex align-items-center"><i
                             class="fa-solid fa-link me-2"></i>Hubungan</span>
                     <i class="fa-solid fa-link icon-sm d-sm-none"></i>
@@ -819,7 +819,7 @@
             </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
+            <div class="tab-pane fade {{ !request()->has('compare') ? 'show active' : '' }}" id="navs-pills-justified-home" role="tabpanel">
                 <div class="">
                     <div class="nav-align-top">
                         <ul class="nav nav-tabs" role="tablist">
@@ -1172,7 +1172,7 @@
                 </div>
             </div>
             <!-- BAGIAN HUBUNGAN KELUARGA -->
-            <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
+            <div class="tab-pane fade {{ request()->has('compare') ? 'show active' : '' }}" id="navs-pills-justified-messages" role="tabpanel">
                 {{-- ini page 3 --}}
                 <div class="card mb-4">
                     <div class="card-body">
