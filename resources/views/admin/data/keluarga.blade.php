@@ -308,7 +308,7 @@
                           <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                       @else
-                        <a class="badge bg-label-success m-1 py-1" data-bs-toggle="modal" data-bs-target="#passwordModal{{ $Trah->id }}">
+                        <a class="badge bg-label-success m-1 py-1" href="{{ route('keluarga.detail.private', $Trah->id) }}">
                           <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                       @endif

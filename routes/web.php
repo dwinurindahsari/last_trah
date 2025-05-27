@@ -65,6 +65,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 Route::get('keluarga/detail/public/{id}', [KeluargaController::class, 'detail_public'])->name('keluarga.detail.public');
 
+Route::get('keluarga/detail/private/{id}', [KeluargaController::class, 'detail_private'])->name('keluarga.detail.private');
+
 Route::post('keluarga/detail/public/add', [SilsilahController::class, 'create_anggota_keluarga'])->name('anggota.keluarga.store');
 
 Route::get('keluarga/detail/public/edit/{id}', [SilsilahController::class, 'edit_anggota_keluarga'])->name('anggota.keluarga.edit');

@@ -80,12 +80,16 @@ class KeluargaController extends Controller
     {
         $trah = Trah::with('anggotaKeluarga')->findOrFail($id);
         $anggota_keluarga = $trah->anggotaKeluarga;
+        $trah_id = $id;
+        $rootMembers = $anggota_keluarga->whereNull('parent_id');
         
         // Panggil LogicController
         $logic = new \App\Http\Controllers\LogicController();
         $comparison = $logic->compare($request, $id);
         
         return view('detail.public_detail', [
+            'trah_id' => $trah_id,
+            'rootMembers' => $rootMembers,
             'trah' => $trah,
             'anggota_keluarga' => $anggota_keluarga,
             ...$comparison // Spread operator untuk unpack array
@@ -104,7 +108,6 @@ class KeluargaController extends Controller
                         ->get();
         // Root member (anggota tanpa parent_id) dari trah ini saja
         $rootMember = $anggota_keluarga->whereNull('parent_id');
-        
         $rootPartner = $pasangan_keluarga->whereNull('anggota_keluarga_id');
 
         $person1 = null;
@@ -160,21 +163,17 @@ class KeluargaController extends Controller
             $query->orderBy('urutan');
         }])->findOrFail($id);
 
-        // Ambil hanya anggota keluarga yang terkait dengan trah ini
         $anggota_keluarga = $trah->anggotaKeluarga;
         
-        // Ambil partner yang terkait dengan anggota keluarga ini
         $partner = Partner::whereIn('anggota_keluarga_id', $anggota_keluarga->pluck('id'))
                         ->orderBy('nama')
                         ->get();
 
-        // Root member (anggota tanpa parent_id) dari trah ini saja
         $rootMember = $anggota_keluarga->whereNull('parent_id');
         
-        // Root partner (partner tanpa anggota_keluarga_id) - ini mungkin perlu penyesuaian
         $rootPartner = $partner->whereNull('anggota_keluarga_id');
 
-        return view('detail.public_detail', [
+        return view('detail.private_detail', [
             'trahs' => $trah, // Menggunakan nama variabel yang konsisten
             'trah' => $trah, // Duplikat jika diperlukan untuk kompatibilitas
             'anggota_keluarga' => $anggota_keluarga,
@@ -184,6 +183,7 @@ class KeluargaController extends Controller
             'partner' => $partner
         ]);
     }
+
     public function detail_private_user($id, Request $request){
         $trah = Trah::with(['anggotaKeluarga' => function($query) {
             $query->orderBy('urutan');

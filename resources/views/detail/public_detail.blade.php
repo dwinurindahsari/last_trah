@@ -282,117 +282,6 @@
     @endif
 
     <div class="modal-group">
-        <div class="modal fade" id="familyModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel3">Tambah Anggota Keluarga</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('anggota.keluarga.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            @if ($trahs->id)
-                                <input type="hidden" name="tree_id" value="{{ $trahs->id }}">
-                            @endif
-                            <div class="row">
-                                <div class="col mb-4">
-                                    <label for="nama_anggota_keluarga" class="form-label">Nama</label>
-                                    <input type="text" id="nama_anggota_keluarga" name="nama_anggota_keluarga"
-                                        class="form-control" placeholder="Nama Lengkap" required>
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                    <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
-                                        <option value="Laki-laki">Laki-laki</option>
-                                        <option value="Perempuan">Perempuan</option>
-                                    </select>
-                                </div>
-                                <div class="col mb-0">
-                                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="parent_id" class="form-label">Orang Tua</label>
-                                    <select id="parent_id" name="parent_id" class="form-select">
-                                        <option value="">Pilih Orang Tua</option> <!-- Default empty option -->
-                                        @foreach ($existingMembers as $member)
-                                            <option value="{{ $member->id }}"
-                                                {{ old('parent_id') == $member->id ? 'selected' : '' }}>
-                                                {{ $member->nama }}
-                                                @if ($member->jenis_kelamin === 'Laki-Laki')
-                                                    (Pak)
-                                                @else
-                                                    (Ibu)
-                                                @endif
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col mb-0">
-                                    <label for="urutan" class="form-label">Urutan</label>
-                                    <select id="urutan" name="urutan" class="form-select" required>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="status_kehidupan" class="form-label">Status Kehidupan</label>
-                                    <select id="status_kehidupan" name="status_kehidupan" class="form-select" required>
-                                        <option value="Hidup">Hidup</option>
-                                        <option value="Wafat">Wafat</option>
-                                    </select>
-                                </div>
-                                <div class="col mb-0">
-                                    <label for="tanggal_kematian" class="form-label">Tanggal Kematian</label>
-                                    <input type="date" id="tanggal_kematian" class="form-control"
-                                        name="tanggal_kematian">
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <label for="alamat" class="form-label">Alamat</label>
-                                    <textarea class="form-control" name="alamat" required></textarea>
-                                </div>
-                            </div>
-                            <div class="row g-4">
-                                <div class="col mb-4">
-                                    <div class="mb-3">
-                                        <label for="keluarga_image" class="form-label">Upload Avatar</label>
-                                        <img src="" class="img-thumbnail image-preview mb-3"
-                                            style="display: none; max-width: 100px; max-height: 100px; object-fit: cover; aspect-ratio: 1/1; border-radius: 10px;">
-                                        <input class="form-control file-uploader" type="file" id="keluarga_image"
-                                            name="keluarga_image" accept="image/*" onchange="upload()">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
         @foreach ($anggota_keluarga as $anggota)
             <div class="modal fade" id="editMemberModal{{ $anggota->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -790,7 +679,8 @@
         <ul class="nav nav-pills mb-4 nav-fill bg-white p-2" role="tablist">
             <li class="nav-item mb-1 mb-sm-0">
                 <button type="button" class="nav-link {{ !request()->has('compare') ? 'active' : '' }}" role="tab"
-                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
+                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-home"
+                    aria-controls="navs-pills-justified-home"
                     aria-selected="{{ !request()->has('compare') ? 'true' : 'false' }}">
                     <span class="d-none d-sm-inline-flex align-items-center">
                         <i class="fa-solid fa-person me-2"></i>Data Keluarga
@@ -810,7 +700,8 @@
             </li>
             <li class="nav-item">
                 <button type="button" class="nav-link {{ request()->has('compare') ? 'active' : '' }}" role="tab"
-                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-messages" aria-controls="navs-pills-justified-messages"
+                    data-bs-toggle="tab" data-bs-target="#navs-pills-justified-messages"
+                    aria-controls="navs-pills-justified-messages"
                     aria-selected="{{ request()->has('compare') ? 'true' : 'false' }}">
                     <span class="d-none d-sm-inline-flex align-items-center"><i
                             class="fa-solid fa-link me-2"></i>Hubungan</span>
@@ -818,8 +709,11 @@
                 </button>
             </li>
         </ul>
+    </div>
+    <div class="card">
         <div class="tab-content">
-            <div class="tab-pane fade {{ !request()->has('compare') ? 'show active' : '' }}" id="navs-pills-justified-home" role="tabpanel">
+            <div class="tab-pane fade {{ !request()->has('compare') ? 'show active' : '' }}"
+                id="navs-pills-justified-home" role="tabpanel">
                 <div class="">
                     <div class="nav-align-top">
                         <ul class="nav nav-tabs" role="tablist">
@@ -1155,30 +1049,29 @@
                 </div>
             </div>
             <div class="tab-pane fade grab" id="navs-pills-justified-profile" role="tabpanel">
-                <div class="mb-3 overflow-auto">
-                    <div class="row justify-center m-5">
-                        @if (is_iterable($rootMember))
-                            <div class="tree">
-                                <ul>
-                                    @foreach ($rootMember->sortBy('urutan') as $anggota)
-                                        @include('partial.anggota_keluarga', ['member' => $anggota])
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @else
-                            @include('partial.anggota_keluarga', ['member' => $rootMember])
-                        @endif
+                <div class="container flex-wrap overflow-auto">
+                    <div class="row justify-center">
+                        <h1 class="fw-bold" style="color: #000 !important; text-transform: capitalize;">
+                            {{ $trah->tree_name }}</h1>
+                        <div class="tree">
+                            <ul>
+                                @foreach ($rootMember as $member)
+                                    @include('partials.family-member', ['member' => $member])
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- BAGIAN HUBUNGAN KELUARGA -->
-            <div class="tab-pane fade {{ request()->has('compare') ? 'show active' : '' }}" id="navs-pills-justified-messages" role="tabpanel">
+            <div class="tab-pane fade {{ request()->has('compare') ? 'show active' : '' }}"
+                id="navs-pills-justified-messages" role="tabpanel">
                 {{-- ini page 3 --}}
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title text-center w-100" >Perbandingan Hubungan Keluarga</h5>
+                        <h5 class="card-title text-center w-100">Perbandingan Hubungan Keluarga</h5>
 
-                         <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
+                        <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
                             @csrf
                             <input type="hidden" name="tree_id" value="{{ $tree_id }}">
                             <input type="hidden" name="compare" value="true">
@@ -1187,9 +1080,11 @@
                                 <div class="row gx-5">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label for="person1" class="form-label text-center w-100">Pilih Anggota Keluarga 1:</label>
+                                            <label for="person1" class="form-label text-center w-100">Pilih Anggota
+                                                Keluarga 1:</label>
                                             <div class="d-flex justify-content-center">
-                                                <select name="name1" id="person1" class="form-control" style="width: 450px;" required>
+                                                <select name="name1" id="person1" class="form-control"
+                                                    style="width: 450px;" required>
                                                     <option value="" style="color: gray;">-- Pilih --</option>
                                                     @foreach ($anggota_keluarga as $trah)
                                                         <option value="{{ $trah->nama }}" style="color: black;"
@@ -1206,13 +1101,14 @@
                                         <button type="button" class="btn btn-primary rounded-circle"
                                             style="width: 50px; height: 50px; font-size: 24px;">VS</button>
                                     </div>
-                                    
+
 
                                     <div class="col">
                                         <div class="mb-3">
                                             <label for="person2" class="form-label text-center w-100">Pilih Anggota
                                                 Keluarga 2:</label>
-                                            <select name="name2" id="person2" class="form-control" style="width: 450px;" required>
+                                            <select name="name2" id="person2" class="form-control"
+                                                style="width: 450px;" required>
                                                 <option value="" style="color: gray;">-- Pilih --</option>
                                                 @foreach ($anggota_keluarga as $trah)
                                                     <option value="{{ $trah->nama }}"
@@ -1231,7 +1127,7 @@
                                     style="width: 30px; height: 30px; font-size: 18px;">-</button>
                             </div>
                         </form>
-                        
+
 
                         <!-- tabel hasil hubungan -->
                         @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
@@ -1320,9 +1216,9 @@
 
                         <div class="d-grid gap-2 mt-4">
                             <button type="button" class="btn btn-danger" onclick="resetForm();">Reset</button>
-                        </div> 
+                        </div>
 
-                         @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
+                        @if (isset($relationshipDetails) && isset($relationshipDetailsReversed))
                             <script>
                                 window.onload = () => {
                                     document.getElementById('relationship-details')?.scrollIntoView({
@@ -1330,7 +1226,7 @@
                                     });
                                 }
                             </script>
-                        @endif 
+                        @endif
 
                         <script>
                             function resetForm() {
@@ -1346,22 +1242,24 @@
         </div>
     </div>
 
-     <script>
-$(document).ready(function() {
-    $('#relationshipComparisonForm').submit(function(e) {
-        e.preventDefault();
-        
-        // Tampilkan loading
-        $('#relationInfo').html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i> Memproses...</div>');
-        $('#relationshipResult').show();
+    <script>
+        $(document).ready(function() {
+            $('#relationshipComparisonForm').submit(function(e) {
+                e.preventDefault();
 
-        $.ajax({
-            url: "{{ route('pasangan.anggota.keluarga.compare') }}",
-            method: "POST",
-            data: $(this).serialize(),
-            success: function(response) {
-                // Tampilkan hasil hubungan
-                let html = `
+                // Tampilkan loading
+                $('#relationInfo').html(
+                    '<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i> Memproses...</div>'
+                );
+                $('#relationshipResult').show();
+
+                $.ajax({
+                    url: "{{ route('pasangan.anggota.keluarga.compare') }}",
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Tampilkan hasil hubungan
+                        let html = `
                     <div class="relation-result">
                         <p><strong>${response.person1.name}</strong> → <strong>${response.person2.name}</strong>: 
                         ${response.relationship1to2.relation}</p>
@@ -1369,30 +1267,33 @@ $(document).ready(function() {
                         ${response.relationship2to1.relation}</p>
                     </div>
                 `;
-                $('#relationInfo').html(html);
+                        $('#relationInfo').html(html);
 
-                // Tampilkan detail jalur hubungan jika ada
-                if (response.relationship1to2.detailedPath.length > 0) {
-                    let detailsHtml = '<h6>Detail Hubungan:</h6><ul class="list-group">';
-                    response.relationship1to2.detailedPath.forEach(step => {
-                        detailsHtml += `<li class="list-group-item">${step}</li>`;
-                    });
-                    detailsHtml += '</ul>';
-                    $('#relationDetails').html(detailsHtml);
-                }
-            },
-            error: function(xhr) {
-                let errorMessage = 'Terjadi kesalahan saat memproses';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                }
-                $('#relationInfo').html(`<div class="alert alert-danger">${errorMessage}</div>`);
-                $('#relationDetails').empty();
-            }
+                        // Tampilkan detail jalur hubungan jika ada
+                        if (response.relationship1to2.detailedPath.length > 0) {
+                            let detailsHtml =
+                                '<h6>Detail Hubungan:</h6><ul class="list-group">';
+                            response.relationship1to2.detailedPath.forEach(step => {
+                                detailsHtml +=
+                                    `<li class="list-group-item">${step}</li>`;
+                            });
+                            detailsHtml += '</ul>';
+                            $('#relationDetails').html(detailsHtml);
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Terjadi kesalahan saat memproses';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        $('#relationInfo').html(
+                            `<div class="alert alert-danger">${errorMessage}</div>`);
+                        $('#relationDetails').empty();
+                    }
+                });
+            });
         });
-    });
-});
-</script> 
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

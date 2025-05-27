@@ -235,7 +235,7 @@ class LogicController extends Controller
         // 3. Saudara kandung
         if ($depth === 0 && $first->parent_id === $last->parent_id) {
             if ($first->urutan < $last->urutan) {
-                return ($first->gender === 'Laki-Laki' ? 'mas dari' : 'mbak dari')." {$last->nama}" ;
+                return " {$first->nama} ". ($first->gender === 'Laki-Laki' ? 'mas dari' : 'mbak dari')." {$last->nama}" ;
             }
             return ($first->gender === 'Laki-Laki' ? 'adik laki-laki dari' : 'adik perempuan dari')." {$last->nama}";
         }

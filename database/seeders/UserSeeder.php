@@ -38,5 +38,7 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignrole('user');
+
+        
     }
 }
