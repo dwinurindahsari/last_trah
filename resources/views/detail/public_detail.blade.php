@@ -553,7 +553,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
-                            <input type="hidden" name="tree_id" value="{{ $trahs->id }}">
+                            <input type="hidden" name="tree_id" value="{{ $trah->id }}">
                             <div class="row">
                                 <div class="col mb-4">
                                     <label for="nama_pasangan_anggota_keluarga" class="form-label">Nama <span
