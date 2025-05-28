@@ -1195,12 +1195,12 @@
                                             <label for="person1" class="form-label text-center w-100">Pilih Anggota
                                                 Keluarga 1:</label>
                                             <div class="d-flex justify-content-center">
-                                                <select name="name1" id="person1" class="form-control"
+                                                <select name="nama1" id="person1" class="form-control"
                                                     style="width: 450px;" required>
                                                     <option value="" style="color: gray;">-- Pilih --</option>
                                                     @foreach ($anggota_keluarga as $trah)
                                                         <option value="{{ $trah->nama }}" style="color: black;"
-                                                            {{ old('name1', $person1->nama ?? '') == $trah->nama ? 'selected' : '' }}>
+                                                            {{ old('nama1', $person1->nama ?? '') == $trah->nama ? 'selected' : '' }}>
                                                             {{ $trah->nama }}
                                                         </option>
                                                     @endforeach
@@ -1210,7 +1210,7 @@
                                     </div>
 
                                     <div class="col d-flex justify-content-center align-items-center">
-                                        <button type="button" class="btn btn-primary rounded-circle"
+                                        <button type="submit" class="btn btn-primary rounded-circle"
                                             style="width: 50px; height: 50px; font-size: 24px;">VS</button>
                                     </div>
 
@@ -1219,12 +1219,12 @@
                                         <div class="mb-3">
                                             <label for="person2" class="form-label text-center w-100">Pilih Anggota
                                                 Keluarga 2:</label>
-                                            <select name="name2" id="person2" class="form-control"
+                                            <select name="nama2" id="person2" class="form-control"
                                                 style="width: 450px;" required>
                                                 <option value="" style="color: gray;">-- Pilih --</option>
                                                 @foreach ($anggota_keluarga as $trah)
                                                     <option value="{{ $trah->nama }}"
-                                                        {{ old('name2', $person2->nama ?? '') == $trah->nama ? 'selected' : '' }}>
+                                                        {{ old('nama2', $person2->nama ?? '') == $trah->nama ? 'selected' : '' }}>
                                                         {{ $trah->nama }}
                                                     </option>
                                                 @endforeach
@@ -1234,10 +1234,7 @@
                                 </div>
                             </div>
 
-                            <div class="col d-flex justify-content-center align-items-center">
-                                <button type="submit" class="btn btn-primary rounded-circle"
-                                    style="width: 30px; height: 30px; font-size: 18px;">-</button>
-                            </div>
+
                         </form>
 
 
@@ -1252,7 +1249,7 @@
                                         @if (isset($person1->photo) && $person1->photo)
                                             <div class="flex justify-center mb-3">
                                                 <img src="{{ asset('storage/' . $person1->photo) }}"
-                                                    alt="{{ $person1->name }}"
+                                                    alt="{{ $person1->nama }}"
                                                     class="w-48 h-48 rounded-full object-cover border-4 border-green-700" />
                                             </div>
                                         @endif
@@ -1275,7 +1272,7 @@
                                                 <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
                                                     <strong>Jalur (BFS fallback):</strong>
                                                     <p>
-                                                        {{ implode(' → ', array_map(fn($m) => $m->name, $path)) }}
+                                                        {{ implode(' → ', array_map(fn($m) => $m->nama, $path)) }}
                                                     </p>
                                                 </div>
                                             @endif
@@ -1291,7 +1288,7 @@
                                         @if (isset($person2->photo) && $person2->photo)
                                             <div class="flex justify-center mb-3">
                                                 <img src="{{ asset('storage/' . $person2->photo) }}"
-                                                    alt="{{ $person2->name }}"
+                                                    alt="{{ $person2->nama }}"
                                                     class="w-48 h-48 rounded-full object-cover border-4 border-green-700" />
                                             </div>
                                         @endif
@@ -1314,7 +1311,7 @@
                                                 <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
                                                     <strong>Jalur (BFS fallback):</strong>
                                                     <p>
-                                                        {{ implode(' → ', array_map(fn($m) => $m->name, $path)) }}
+                                                        {{ implode(' → ', array_map(fn($m) => $m->nama, $path)) }}
                                                     </p>
                                                 </div>
                                             @endif
