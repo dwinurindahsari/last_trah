@@ -9,6 +9,8 @@ class LogicController extends Controller
 {   
     public function compare(Request $request, $tree_id)
     {
+        $anggota_keluarga = Anggota_Keluarga::where('tree_id', $tree_id)->get();
+
         $person1 = null;
         $person2 = null;
         $relationshipDetails = null;
@@ -17,10 +19,8 @@ class LogicController extends Controller
         $pathReverse = null;
 
         if ($request->has('compare') && $request->filled(['nama1', 'nama2'])) {
-            $person1 = Anggota_Keluarga::where('nama', $request->nama1)
-                      ->where('tree_id', $tree_id)->first();
-            $person2 = Anggota_Keluarga::where('nama', $request->nama2)
-                      ->where('tree_id', $tree_id)->first();
+            $person1 = Anggota_Keluarga::where('nama', $request->nama1)->where('tree_id', $tree_id)->first();
+            $person2 = Anggota_Keluarga::where('nama', $request->nama2)->where('tree_id', $tree_id)->first();
 
             if ($person1 && $person2) {
                 // Person1 -> Person2
@@ -41,14 +41,8 @@ class LogicController extends Controller
             }
         }
 
-        return [
-            'person1' => $person1,
-            'person2' => $person2,
-            'relationshipDetails' => $relationshipDetails,
-            'relationshipDetailsReversed' => $relationshipDetailsReversed,
-            'path' => $path ?? null,
-            'pathReverse' => $pathRev ?? null
-        ];
+        return view('public_detail', compact('tree_id','anggota_keluarga','person1','person2',
+            'relationshipDetails','relationshipDetailsReversed','path','pathRev' ));
     }
 
 

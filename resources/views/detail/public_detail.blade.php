@@ -1307,11 +1307,11 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                            @elseif(isset($path) && count($path))
+                                            @elseif(isset($pathReverse) && count($pathReverse))
                                                 <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
                                                     <strong>Jalur (BFS fallback):</strong>
                                                     <p>
-                                                        {{ implode(' → ', array_map(fn($m) => $m->nama, $path)) }}
+                                                        {{ implode(' → ', array_map(fn($m) => $m->nama, $pathReverse)) }}
                                                     </p>
                                                 </div>
                                             @endif
