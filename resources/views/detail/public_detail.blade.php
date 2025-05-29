@@ -1184,7 +1184,7 @@
                         <h5 class="card-title text-center w-100">Perbandingan Hubungan Keluarga</h5>
 
                         <form action="{{ route('keluarga.detail.public', $tree_id) }}" method="GET">
-                            @csrf
+                            <!-- @csrf -->
                             <input type="hidden" name="tree_id" value="{{ $tree_id }}">
                             <input type="hidden" name="compare" value="true">
 
@@ -1307,11 +1307,11 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                            @elseif(isset($pathReverse) && count($pathReverse))
+                                            @elseif(isset($pathRev) && count($pathRev))
                                                 <div class="bg-[#FEF3C7] text-gray-800 p-3 rounded-md mb-3">
                                                     <strong>Jalur (BFS fallback):</strong>
                                                     <p>
-                                                        {{ implode(' → ', array_map(fn($m) => $m->nama, $pathReverse)) }}
+                                                        {{ implode(' → ', array_map(fn($m) => $m->nama, $pathRev)) }}
                                                     </p>
                                                 </div>
                                             @endif

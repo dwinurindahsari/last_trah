@@ -16,7 +16,7 @@ class LogicController extends Controller
         $relationshipDetails = null;
         $relationshipDetailsReversed = null;
         $path = null;
-        $pathReverse = null;
+        $pathRev = null;
 
         if ($request->has('compare') && $request->filled(['nama1', 'nama2'])) {
             $person1 = Anggota_Keluarga::where('nama', $request->nama1)->where('tree_id', $tree_id)->first();
